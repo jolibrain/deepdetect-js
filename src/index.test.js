@@ -1,8 +1,11 @@
-import deepdetectJs from './index';
+import DD from './index';
 
 describe('index.js', () => {
-  it('should say something', () => {
-    expect(deepdetectJs('🐰')).toEqual('👉 🐰 👈');
-    expect(deepdetectJs()).toEqual('No args passed!');
+  it('access Info API', () => {
+    const dd = new DD();
+    dd.info().then((err, resp) => {
+      const info = resp.body;
+      expect(info.status).toEqual({ code: 200, msg: 'ok' });
+    });
   });
 });
