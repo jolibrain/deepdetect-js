@@ -2,42 +2,23 @@
 
 > DeepDetect JS client
 
-[![npm](https://img.shields.io/npm/v/deepdetect-js.svg?style=flat-square)](https://www.npmjs.com/package/deepdetect-js)
-[![npm](https://img.shields.io/npm/dt/deepdetect-js.svg?style=flat-square)](https://npm-stat.com/charts.html?package=deepdetect-js&from=2016-04-01)
-[![Travis branch](https://img.shields.io/travis/alx/deepdetect-js/master.svg?style=flat-square)](https://travis-ci.org/alx/deepdetect-js)
-[![Codecov branch](https://img.shields.io/codecov/c/github/alx/deepdetect-js/master.svg?style=flat-square)](https://codecov.io/github/alx/deepdetect-js)
-<br />
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](./other/code_of_conduct.md)
-[![Roadmap](https://img.shields.io/badge/%F0%9F%93%94-roadmap-CD9523.svg?style=flat-square)](./other/roadmap.md)
-
-## Why?
-
-// TODO
-
 ## Installation
 
-```sh 
+```sh
 npm install --save deepdetect-js
 ```
 
 ## Usage
 
 ```js
-import deepdetectJs from 'deepdetect-js';
+import DD from 'deepdetect-js';
 
-deepdetectJs('🐰');
-//=> '👉 🐰 👈'
+const dd = new DD()
+
+dd.info().then((err, res) => {
+  console.log(res.body.status.msg) // OK
+});
 ```
-
-## FAQ
-
-// TODO
-
-## Related
-
-// TODO
 
 ## Contributors
 
