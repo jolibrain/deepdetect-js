@@ -71,7 +71,7 @@ async () => {
   // Predict with measures
   const predict = await dd.postPredict(
     serviceName,
-    serviceData,
+    [ '/home/me/deepdetect/examples/all/n20/news20' ],
     {},
     {
       gpu: false,
