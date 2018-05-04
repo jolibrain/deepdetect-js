@@ -34,23 +34,49 @@ module.exports = class DD {
 
   // **HTTP requests to the DeepDetect server**
 
+  // HTTP request to DeepDetect server
+  //
+  // @param {String} httpMethod GET/POST/PUT/DELETE
+  // @param {String} apiMethod DeepDetect api method
+  // @param {Object} json
+  // @param {Object} params
+  httpRequest(httpMethod, apiMethod, json = null, params = null) {
+    const url = this.ddurl + apiMethod;
+
+    return new Promise((resolve, reject) => {
+      if (json != null) {
+        request(httpMethod, url)
+          .send(json)
+          .end((err, resp) => {
+            if (err) reject(err.response.body);
+
+            resolve(resp.body);
+          });
+      } else if (params != null) {
+        request(httpMethod, url)
+          .query(params)
+          .end((err, resp) => {
+            if (err) reject(err.response.body);
+
+            resolve(resp.body);
+          });
+      } else {
+        request(httpMethod, url).end((err, resp) => {
+          if (err) reject(err.response.body);
+
+          resolve(resp.body);
+        });
+      }
+    });
+  }
+
   // GET to DeepDetect server
   //
   // @param {String} method
   // @param {Object} json
   // @param {Object} params
   get(method, json = null, params = null) {
-    const url = this.ddurl + method;
-
-    if (json != null) {
-      return request.get(url).send(json);
-    }
-
-    if (params != null) {
-      return request.get(url).query(json);
-    }
-
-    return request.get(url);
+    return this.httpRequest('GET', method, json, params);
   }
 
   // PUT to DeepDetect server
@@ -59,17 +85,7 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   put(method, json = null, params = null) {
-    const url = this.ddurl + method;
-
-    if (json != null) {
-      return request.put(url).send(json);
-    }
-
-    if (params != null) {
-      return request.put(url).query(json);
-    }
-
-    return request.put(url);
+    return this.httpRequest('PUT', method, json, params);
   }
 
   // POST to DeepDetect server
@@ -78,17 +94,7 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   post(method, json = null, params = null) {
-    const url = this.ddurl + method;
-
-    if (json != null) {
-      return request.post(url).send(json);
-    }
-
-    if (params != null) {
-      return request.post(url).query(json);
-    }
-
-    return request.post(url);
+    return this.httpRequest('POST', method, json, params);
   }
 
   // DELETE to DeepDetect server
@@ -97,24 +103,14 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   delete(method, json = null, params = null) {
-    const url = this.ddurl + method;
-
-    if (json != null) {
-      return request.delete(url).send(json);
-    }
-
-    if (params != null) {
-      return request.delete(url).query(json);
-    }
-
-    return request.delete(url);
+    return this.httpRequest('DELETE', method, json, params);
   }
 
   // **API Info**
 
   // Info on the DeepDetect server
   info() {
-    return this.get(this.urls.info, null, null);
+    return this.get(this.urls.info, null, null).then(info => info);
   }
 
   // **API Service**
@@ -125,10 +121,10 @@ module.exports = class DD {
   // @param {Object} model              model location and optional templates
   // @param {String} description        description of the service
   // @param {String} mllib              ML library name, e.g. caffe
-  // @param {Object} parametersInput   input parameters
-  // @param {Object} parametersMllib   library parameters
-  // @param {Object} parametersOutput  output parameters
-  // @param {String} mltype             ML type
+  // @param {Object} parametersInput    input parameters
+  // @param {Object} parametersMllib    library parameters
+  // @param {Object} parametersOutput   output parameters
+  // @param {String} type               ML type
   putService(
     sname,
     model,
@@ -136,13 +132,13 @@ module.exports = class DD {
     mllib,
     parametersInput,
     parametersMlLib,
-    parametersOutput,
-    mltype = 'supervised'
+    parametersOutput = {},
+    type = 'supervised'
   ) {
     const data = {
       description,
       mllib,
-      type: mltype,
+      type,
       parameters: {
         input: parametersInput,
         mllib: parametersMlLib,
@@ -151,14 +147,14 @@ module.exports = class DD {
       model,
     };
 
-    return this.put(`${this.urls.services}/${sname}`, data);
+    return this.put(`${this.urls.services}/${sname}`, data).then(service => service);
   }
 
   // Get information about a service
   //
   // @param {String} sname service name as a resource
   getService(sname) {
-    return this.get(`${this.urls.services}/${sname}`);
+    return this.get(`${this.urls.services}/${sname}`).then(service => service);
   }
 
   // Delete a service
@@ -172,7 +168,7 @@ module.exports = class DD {
       data.clear = clear;
     }
 
-    return this.delete(`${this.urls.services}/${sname}`, data);
+    return this.delete(`${this.urls.services}/${sname}`, data).then(service => service);
   }
 
   /* API Train */
@@ -204,7 +200,7 @@ module.exports = class DD {
       async: asyncParam,
     };
 
-    return this.post(this.urls.train, postData);
+    return this.post(this.urls.train, postData).then(train => train);
   }
 
   // Get information on a non-blocking training job
@@ -228,7 +224,7 @@ module.exports = class DD {
       };
     }
 
-    return this.get(this.urls.train, null, params);
+    return this.get(this.urls.train, null, params).then(train => train);
   }
 
   // Kills a non-blocking training job
@@ -241,7 +237,7 @@ module.exports = class DD {
       job: `${job}`,
     };
 
-    return this.delete(this.urls.train, null, params);
+    return this.delete(this.urls.train, null, params).then(train => train);
   }
 
   /* API Predict */
@@ -264,6 +260,6 @@ module.exports = class DD {
       data,
     };
 
-    return this.post(this.urls.predict, postData);
+    return this.post(this.urls.predict, postData).then(predict => predict);
   }
 };
