@@ -76,7 +76,9 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   get(method, json = null, params = null) {
-    return this.httpRequest('GET', method, json, params);
+    return this.httpRequest('GET', method, json, params)
+      .then(body => body)
+      .catch(err => err);
   }
 
   // PUT to DeepDetect server
@@ -85,7 +87,9 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   put(method, json = null, params = null) {
-    return this.httpRequest('PUT', method, json, params);
+    return this.httpRequest('PUT', method, json, params)
+      .then(body => body)
+      .catch(err => err);
   }
 
   // POST to DeepDetect server
@@ -94,7 +98,9 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   post(method, json = null, params = null) {
-    return this.httpRequest('POST', method, json, params);
+    return this.httpRequest('POST', method, json, params)
+      .then(body => body)
+      .catch(err => err);
   }
 
   // DELETE to DeepDetect server
@@ -103,7 +109,9 @@ module.exports = class DD {
   // @param {Object} json
   // @param {Object} params
   delete(method, json = null, params = null) {
-    return this.httpRequest('DELETE', method, json, params);
+    return this.httpRequest('DELETE', method, json, params)
+      .then(body => body)
+      .catch(err => err);
   }
 
   // **API Info**
@@ -147,14 +155,14 @@ module.exports = class DD {
       model,
     };
 
-    return this.put(`${this.urls.services}/${sname}`, data).then(service => service);
+    return this.put(`${this.urls.services}/${sname}`, data);
   }
 
   // Get information about a service
   //
   // @param {String} sname service name as a resource
   getService(sname) {
-    return this.get(`${this.urls.services}/${sname}`).then(service => service);
+    return this.get(`${this.urls.services}/${sname}`);
   }
 
   // Delete a service
@@ -168,7 +176,7 @@ module.exports = class DD {
       data.clear = clear;
     }
 
-    return this.delete(`${this.urls.services}/${sname}`, data).then(service => service);
+    return this.delete(`${this.urls.services}/${sname}`, data);
   }
 
   /* API Train */
@@ -200,7 +208,7 @@ module.exports = class DD {
       async: asyncParam,
     };
 
-    return this.post(this.urls.train, postData).then(train => train);
+    return this.post(this.urls.train, postData);
   }
 
   // Get information on a non-blocking training job
@@ -224,7 +232,7 @@ module.exports = class DD {
       };
     }
 
-    return this.get(this.urls.train, null, params).then(train => train);
+    return this.get(this.urls.train, null, params);
   }
 
   // Kills a non-blocking training job
@@ -237,7 +245,7 @@ module.exports = class DD {
       job: `${job}`,
     };
 
-    return this.delete(this.urls.train, null, params).then(train => train);
+    return this.delete(this.urls.train, null, params);
   }
 
   /* API Predict */
@@ -260,6 +268,6 @@ module.exports = class DD {
       data,
     };
 
-    return this.post(this.urls.predict, postData).then(predict => predict);
+    return this.post(this.urls.predict, postData);
   }
 };

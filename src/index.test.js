@@ -23,7 +23,7 @@ describe('index.js', () => {
     const serviceName = 'myserv';
     const serviceDescription = 'example classification service';
     const serviceMlLib = 'caffe';
-    const serviceRepository = '/home/alx/code/deepdetect/demo/imgsearch/model';
+    const serviceRepository = '/home/alx/deepdetect/build/examples/all/n20';
 
     const service = await dd.putService(
       serviceName,
@@ -73,39 +73,34 @@ describe('index.js', () => {
     }
   });
 
-  it('access Train API', async () => {
-    const dd = new DD();
+  it(
+    'access Train API',
+    async () => {
+      const dd = new DD();
 
-    // const n20Repo = '/home/alx/code/deepdetect/examples/all/n20';
+      // const n20Repo = '/home/alx/code/deepdetect/examples/all/n20';
 
-    const serviceName = 'myserv';
-    const serviceDescription = 'example classification service';
-    const serviceMlLib = 'caffe';
-    const serviceRepository =
-      '/home/alx/code/deepdetect/build/examples/all/n20';
-    const serviceModelTemplate = '/home/alx/code/deepdetect/templates/caffe';
+      const serviceName = 'myserv';
+      const serviceDescription = 'example classification service';
+      const serviceMlLib = 'caffe';
+      const serviceRepository = '/home/alx/deepdetect/build/examples/all/n20';
+      const serviceModelTemplate = '../templates/caffe';
 
-    const serviceData = [];
+      const serviceData = [
+        '/home/alx/deepdetect/build/examples/all/n20/news20',
+      ];
 
-    const gpuid = 0;
-    const iterationsN20 = 1000;
+      const iterationsN20 = 1000;
 
-    try {
       // Create service
-      const service = await dd.putService(
+      await dd.putService(
         serviceName,
-        { repository: serviceRepository, template: serviceModelTemplate },
+        { repository: serviceRepository, templates: serviceModelTemplate },
         serviceDescription,
         serviceMlLib,
         { connector: 'txt' },
-        { template: 'mlp', nclasses: 20 }
+        { nclasses: 20 }
       );
-
-      expect(service).toBeDefined();
-      expect(service.status).toBeDefined();
-
-      expect(service.status.code).toEqual(201);
-      expect(service.status.msg).toEqual('Created');
 
       // Train
       const train = await dd.postTrain(
@@ -119,8 +114,7 @@ describe('index.js', () => {
           count: false,
         },
         {
-          gpu: true,
-          gpuid,
+          gpu: false,
           solver: {
             iterations: iterationsN20,
             test_interval: 200,
@@ -160,8 +154,7 @@ describe('index.js', () => {
         serviceData,
         {},
         {
-          gpu: true,
-          gpuid,
+          gpu: false,
           net: {
             test_batch_size: 10,
           },
@@ -174,20 +167,13 @@ describe('index.js', () => {
       expect(predict.body).toBeDefined();
       expect(predict.body.measure).toBeDefined();
 
-      expect(train.status.code).toEqual(200);
+      expect(predict.status.code).toEqual(200);
 
-      expect(predict.body.measure).toBeGreaterThan(0.6);
+      expect(predict.body.measure.f1).toBeGreaterThan(0.6);
 
       // Delete service
-      const deletingService = await dd.deleteService(serviceName, 'full');
-
-      expect(deletingService).toBeDefined();
-      expect(deletingService.status).toBeDefined();
-
-      expect(deletingService.status.code).toEqual(200);
-      expect(deletingService.status.msg).toEqual('OK');
-    } catch (err) {
-      console.log(err);
-    }
-  });
+      await dd.deleteService(serviceName, 'full');
+    },
+    120000
+  ); // set timeout to 120 seconds
 });
