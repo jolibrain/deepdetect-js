@@ -15,13 +15,15 @@
   "scripts": {
     "start": "nps --no-scripts",
     "precommit": "remove-lockfiles && lint-staged",
-    "test": "nps test"
+    "test": "nps test",
+    "doc": "cd src; groc index.js -o ../doc"
   },
   "main": "dist/index.js",
   "files": [
     "dist"
   ],
   "dependencies": {
+    "groc": "^0.8.0",
     "superagent": "^3.8.3"
   },
   "devDependencies": {

@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="index.js"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">index.js</div></div><div id="document"><div class="segment"><div class="code"><div class="wrapper"><span class="hljs-pi">'use strict'</span>;
+
+<span class="hljs-keyword">import</span> request <span class="hljs-keyword">from</span> <span class="hljs-string">'superagent'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>DeepDetect Javascript client</strong></p></div></div><div class="code"><div class="wrapper"><span class="hljs-built_in">module</span>.exports = <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DD</span> </span>{</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>DD class constructor</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>host must be a String.</strong><br/>(the DeepDetect server host)</p>
+</li>
+<li><p><strong>port must be an Integer.</strong><br/>(the DeepDetect server port)</p>
+</li>
+<li><p><strong>https must be a Boolean.</strong><br/>(http (default) or https connection)</p>
+</li>
+<li><p><strong>apiversion must be a String.</strong><br/>(url api version)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  constructor(
+    host = <span class="hljs-string">'localhost'</span>,
+    port = <span class="hljs-number">8080</span>,
+    https = <span class="hljs-literal">false</span>,
+    apiversion = <span class="hljs-string">'0.1'</span>
+  ) {
+    <span class="hljs-keyword">const</span> API_METHODS_URL = {
+      <span class="hljs-number">0.1</span>: {
+        info: <span class="hljs-string">'/info'</span>,
+        services: <span class="hljs-string">'/services'</span>,
+        train: <span class="hljs-string">'/train'</span>,
+        predict: <span class="hljs-string">'/predict'</span>,
+      },
+    };
+
+    <span class="hljs-keyword">this</span>.apiversion = apiversion;
+    <span class="hljs-keyword">this</span>.urls = API_METHODS_URL[apiversion];
+    <span class="hljs-keyword">this</span>.host = host;
+    <span class="hljs-keyword">this</span>.port = port;
+    <span class="hljs-keyword">this</span>.ddurl = <span class="hljs-string">`<span class="hljs-subst">${https ? 'https' : 'http'}</span>://<span class="hljs-subst">${host}</span>:<span class="hljs-subst">${port}</span>`</span>;
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>HTTP requests to the DeepDetect server</strong></p></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>HTTP request to DeepDetect server</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>httpMethod must be a String.</strong><br/>(GET/POST/PUT/DELETE)</p>
+</li>
+<li><p><strong>apiMethod must be a String.</strong><br/>(DeepDetect api method)</p>
+</li>
+<li><p><strong>json must be an Object.</strong></p>
+</li>
+<li><p><strong>params must be an Object.</strong></p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  httpRequest(httpMethod, apiMethod, json = <span class="hljs-literal">null</span>, params = <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">const</span> url = <span class="hljs-keyword">this</span>.ddurl + apiMethod;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>((resolve, reject) =&gt; {
+      <span class="hljs-keyword">if</span> (json != <span class="hljs-literal">null</span>) {
+        request(httpMethod, url)
+          .send(json)
+          .end((err, resp) =&gt; {
+            <span class="hljs-keyword">if</span> (err) reject(err.response.body);
+
+            resolve(resp.body);
+          });
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (params != <span class="hljs-literal">null</span>) {
+        request(httpMethod, url)
+          .query(params)
+          .end((err, resp) =&gt; {
+            <span class="hljs-keyword">if</span> (err) reject(err.response.body);
+
+            resolve(resp.body);
+          });
+      } <span class="hljs-keyword">else</span> {
+        request(httpMethod, url).end((err, resp) =&gt; {
+          <span class="hljs-keyword">if</span> (err) reject(err.response.body);
+
+          resolve(resp.body);
+        });
+      }
+    });
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>GET to DeepDetect server</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>method must be a String.</strong></p>
+</li>
+<li><p><strong>json must be an Object.</strong></p>
+</li>
+<li><p><strong>params must be an Object.</strong></p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  get(method, json = <span class="hljs-literal">null</span>, params = <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.httpRequest(<span class="hljs-string">'GET'</span>, method, json, params)
+      .then(body =&gt; body)
+      .catch(err =&gt; err);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>PUT to DeepDetect server</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>method must be a String.</strong></p>
+</li>
+<li><p><strong>json must be an Object.</strong></p>
+</li>
+<li><p><strong>params must be an Object.</strong></p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  put(method, json = <span class="hljs-literal">null</span>, params = <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.httpRequest(<span class="hljs-string">'PUT'</span>, method, json, params)
+      .then(body =&gt; body)
+      .catch(err =&gt; err);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>POST to DeepDetect server</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>method must be a String.</strong></p>
+</li>
+<li><p><strong>json must be an Object.</strong></p>
+</li>
+<li><p><strong>params must be an Object.</strong></p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  post(method, json = <span class="hljs-literal">null</span>, params = <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.httpRequest(<span class="hljs-string">'POST'</span>, method, json, params)
+      .then(body =&gt; body)
+      .catch(err =&gt; err);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>DELETE to DeepDetect server</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>method must be a String.</strong></p>
+</li>
+<li><p><strong>json must be an Object.</strong></p>
+</li>
+<li><p><strong>params must be an Object.</strong></p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="hljs-keyword">delete</span>(method, json = <span class="hljs-literal">null</span>, params = <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.httpRequest(<span class="hljs-string">'DELETE'</span>, method, json, params)
+      .then(body =&gt; body)
+      .catch(err =&gt; err);
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>API Info</strong></p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Info on the DeepDetect server</p></div></div><div class="code"><div class="wrapper">  info() {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.get(<span class="hljs-keyword">this</span>.urls.info, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>).then(info =&gt; info);
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><strong>API Service</strong></p></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Create a service</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>sname must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>model must be an Object.</strong><br/>(model location and optional templates)</p>
+</li>
+<li><p><strong>description must be a String.</strong><br/>(description of the service)</p>
+</li>
+<li><p><strong>mllib must be a String.</strong><br/>(ML library name, e.g. caffe)</p>
+</li>
+<li><p><strong>parametersInput must be an Object.</strong><br/>(input parameters)</p>
+</li>
+<li><p><strong>parametersMllib must be an Object.</strong><br/>(library parameters)</p>
+</li>
+<li><p><strong>parametersOutput must be an Object.</strong><br/>(output parameters)</p>
+</li>
+<li><p><strong>type must be a String.</strong><br/>(ML type)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  putService(
+    sname,
+    model,
+    description,
+    mllib,
+    parametersInput,
+    parametersMlLib,
+    parametersOutput = {},
+    type = <span class="hljs-string">'supervised'</span>
+  ) {
+    <span class="hljs-keyword">const</span> data = {
+      description,
+      mllib,
+      type,
+      parameters: {
+        input: parametersInput,
+        mllib: parametersMlLib,
+        output: parametersOutput,
+      },
+      model,
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.put(<span class="hljs-string">`<span class="hljs-subst">${this.urls.services}</span>/<span class="hljs-subst">${sname}</span>`</span>, data);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Get information about a service</p>
+<p>Parameters:</p>
+<ul>
+<li><strong>sname must be a String.</strong><br/>(service name as a resource)</li>
+</ul></div></div><div class="code"><div class="wrapper">  getService(sname) {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.get(<span class="hljs-string">`<span class="hljs-subst">${this.urls.services}</span>/<span class="hljs-subst">${sname}</span>`</span>);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Delete a service</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>sname must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>clear must be a String.</strong><br/>(&#39;full&#39;,&#39;lib&#39; or &#39;mem&#39;, optionally clears model repository data)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  deleteService(sname, clear) {
+    <span class="hljs-keyword">const</span> data = {};
+
+    <span class="hljs-keyword">if</span> (clear) {
+      data.clear = clear;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.delete(<span class="hljs-string">`<span class="hljs-subst">${this.urls.services}</span>/<span class="hljs-subst">${sname}</span>`</span>, data);
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>API Train </p></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Creates a training job</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>sname must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>data must be an Array.</strong><br/>(array of input data / dataset for training)</p>
+</li>
+<li><p><strong>parametersInput must be an Object.</strong><br/>(input parameters)</p>
+</li>
+<li><p><strong>parametersMlLib must be an Object.</strong><br/>(library parameters)</p>
+</li>
+<li><p><strong>parametersOutput must be an Object.</strong><br/>(output parameters)</p>
+</li>
+<li><p><strong>asyncParam must be a Boolean.</strong><br/>(whether to run the job as non-blocking)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  postTrain(
+    sname,
+    data,
+    parametersInput,
+    parametersMlLib,
+    parametersOutput,
+    asyncParam = <span class="hljs-literal">true</span>
+  ) {
+    <span class="hljs-keyword">const</span> postData = {
+      service: sname,
+      data,
+      parameters: {
+        input: parametersInput,
+        mllib: parametersMlLib,
+        output: parametersOutput,
+      },
+      <span class="hljs-keyword">async</span>: asyncParam,
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.post(<span class="hljs-keyword">this</span>.urls.train, postData);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Get information on a non-blocking training job</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>sname must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>job must be an Integer.</strong><br/>(job number on the service)</p>
+</li>
+<li><p><strong>timeout must be an Integer.</strong><br/>(timeout before obtaining the job status)</p>
+</li>
+<li><p><strong>measureHist must be a Boolean.</strong><br/>(whether to return the full measure history (e.g. for plotting))</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  getTrain(sname, job = <span class="hljs-number">1</span>, timeout = <span class="hljs-number">0</span>, measureHist = <span class="hljs-literal">false</span>) {
+    <span class="hljs-keyword">const</span> params = {
+      service: sname,
+      job: <span class="hljs-string">`<span class="hljs-subst">${job}</span>`</span>,
+      timeout: <span class="hljs-string">`<span class="hljs-subst">${timeout}</span>`</span>,
+    };
+
+    <span class="hljs-keyword">if</span> (measureHist) {
+      params.parameters = {
+        output: {
+          measureHist: <span class="hljs-literal">true</span>,
+        },
+      };
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.get(<span class="hljs-keyword">this</span>.urls.train, <span class="hljs-literal">null</span>, params);
+  }</div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Kills a non-blocking training job</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>sname must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>job must be an Integer.</strong><br/>(job number on the service)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  deleteTrain(sname, job = <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">const</span> params = {
+      service: sname,
+      job: <span class="hljs-string">`<span class="hljs-subst">${job}</span>`</span>,
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.delete(<span class="hljs-keyword">this</span>.urls.train, <span class="hljs-literal">null</span>, params);
+  }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>API Predict </p></div></div></div><div class="segment"><div class="comments doc-section"><div class="wrapper"><p>Makes prediction from data and model</p>
+<p>Parameters:</p>
+<ul>
+<li><p><strong>name must be a String.</strong><br/>(service name as a resource)</p>
+</li>
+<li><p><strong>data must be an Array.</strong><br/>(array of data URI to predict from)</p>
+</li>
+<li><p><strong>parametersInput must be an Object.</strong><br/>(input parameters)</p>
+</li>
+<li><p><strong>parametersMlLib must be an Object.</strong><br/>(library parameters)</p>
+</li>
+<li><p><strong>parametersOutput must be an Object.</strong><br/>(output parameters)</p>
+</li>
+</ul></div></div><div class="code"><div class="wrapper">  postPredict(sname, data, parametersInput, parametersMlLib, parametersOutput) {
+    <span class="hljs-keyword">const</span> postData = {
+      service: sname,
+      parameters: {
+        input: parametersInput,
+        mllib: parametersMlLib,
+        output: parametersOutput,
+      },
+      data,
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.post(<span class="hljs-keyword">this</span>.urls.predict, postData);
+  }
+};</div></div></div></div></body></html>
