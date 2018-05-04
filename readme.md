@@ -49,7 +49,8 @@ async () => {
 Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars2.githubusercontent.com/u/22868432?v=3" width="100px;"/><br /><sub>Alexandre Girard</sub>](https://github.com/alx)<br />[💻](https://github.com/alx/deepdetect-js/commits?author=alx "Code") [📖](https://github.com/alx/deepdetect-js/commits?author=alx "Documentation") [🚇](#infra-luftywiranda13 "Infrastructure (Hosting, Build-Tools, etc)") |
+<!-- prettier-ignore -->
+| [<img src="https://avatars2.githubusercontent.com/u/22868432?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx)<br />[💻](https://github.com/alx/deepdetect-js/commits?author=alx "Code") [📖](https://github.com/alx/deepdetect-js/commits?author=alx "Documentation") [🚇](#infra-alx "Infrastructure (Hosting, Build-Tools, etc)") |
 | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
