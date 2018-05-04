@@ -13,11 +13,35 @@ npm install --save deepdetect-js
 ```js
 import DD from 'deepdetect-js';
 
-const dd = new DD()
+async () => {
 
-dd.info().then((err, res) => {
-  console.log(res.body.status.msg) // OK
-});
+  const dd = new DD()
+
+  // Get DeepDetect server info
+  const info = await dd.info()
+  console.log(info);
+
+  // Create a service
+  const serviceName = 'myserv';
+  const serviceDescription = 'example classification service';
+  const serviceMlLib = 'caffe';
+  const serviceRepository = '/home/me/models/example';
+
+  const createService = await dd.putService(
+    serviceName,
+    { repository: serviceRepository },
+    serviceDescription,
+    serviceMlLib,
+    { connector: 'csv' },
+    { nclasses: 9, layers: [512, 512, 512], activation: 'prelu' }
+  );
+
+  const service = await dd.getService(serviceName);
+  console.log(service);
+
+  const deleteService = await dd.deleteService(serviceName);
+
+}
 ```
 
 ## Contributors

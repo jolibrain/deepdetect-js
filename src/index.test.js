@@ -23,10 +23,11 @@ describe('index.js', () => {
     const serviceName = 'myserv';
     const serviceDescription = 'example classification service';
     const serviceMlLib = 'caffe';
+    const serviceRepository = '/home/alx/code/deepdetect/demo/imgsearch/model';
 
     const service = await dd.putService(
       serviceName,
-      { repository: '/home/alx/code/deepdetect/demo/imgsearch/model' },
+      { repository: serviceRepository },
       serviceDescription,
       serviceMlLib,
       { connector: 'csv' },
