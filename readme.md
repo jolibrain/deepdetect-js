@@ -30,16 +30,62 @@ async () => {
   const createService = await dd.putService(
     serviceName,
     { repository: serviceRepository },
+    { repository: serviceRepository, templates: '../templates/caffe' },
     serviceDescription,
     serviceMlLib,
-    { connector: 'csv' },
-    { nclasses: 9, layers: [512, 512, 512], activation: 'prelu' }
+    { connector: 'txt' },
+    { nclasses: 20 }
   );
 
   const service = await dd.getService(serviceName);
   console.log(service);
 
-  const deleteService = await dd.deleteService(serviceName);
+  // Train
+  const train = await dd.postTrain(
+    serviceName,
+    [ '/home/me/deepdetect/examples/all/n20/news20' ],
+    {
+      test_split: 0.2,
+      shuffle: true,
+      min_count: 10,
+      min_word_length: 3,
+      count: false,
+    },
+    {
+      gpu: false,
+      solver: {
+        iterations: iterationsN20,
+        test_interval: 200,
+        base_lr: 0.05,
+        snapshot: 2000,
+        test_initialization: true,
+      },
+      net: {
+        batch_size: 100,
+      },
+    },
+    { measure: ['acc', 'mcll', 'f1'] },
+    false
+  );
+
+  // Predict with measures
+  const predict = await dd.postPredict(
+    serviceName,
+    serviceData,
+    {},
+    {
+      gpu: false,
+      net: {
+        test_batch_size: 10,
+      },
+    },
+    { measure: ['f1'] }
+  );
+  console.log(predict);
+
+
+  // Delete service
+  const deleteService = await dd.deleteService(serviceName, 'full');
 
 }
 ```
