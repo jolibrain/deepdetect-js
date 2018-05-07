@@ -1,8 +1,40 @@
 import DD from './index';
 
-describe('index.js', () => {
-  it('access Info API', async () => {
-    const dd = new DD();
+// Change these parameters in accord with
+// your own DeepDetect server configuration
+const ddServerParams = {
+  host: '127.0.0.1',
+  port: 8580,
+};
+
+// Change these parameters in accord with
+// the path where test repository and data are available
+//
+// Process MUST have writting permission on
+// "${testService.repository}" folder
+const testService = {
+  name: 'myserv',
+  description: 'example classification service',
+  mlLib: 'caffe',
+  repository: '/opt/eris/data1/alx/deepdetect-js/n20',
+  data: '/opt/eris/data1/alx/deepdetect-js/n20/news20',
+};
+
+describe('Info API', () => {
+  beforeEach(async () => {
+    // Check if test service exists, and delete it if it's the case
+    // This can happen when a service-related test is not complete
+    const dd = new DD(ddServerParams.host, ddServerParams.port);
+
+    const info = await dd.info();
+
+    if (info.head.services.map(s => s.name).includes(testService.name)) {
+      await dd.deleteService(testService.name);
+    }
+  });
+
+  test('access Info API', async () => {
+    const dd = new DD(ddServerParams.host, ddServerParams.port);
     const info = await dd.info();
 
     expect(info).toBeDefined();
@@ -16,20 +48,29 @@ describe('index.js', () => {
     expect(info.head.commit).toBeDefined();
     expect(info.head.services).toHaveLength(0);
   });
+});
 
-  it('access Service API', async () => {
-    const dd = new DD();
+describe('Service API', () => {
+  beforeEach(async () => {
+    // Check if test service exists, and delete it if it's the case
+    // This can happen when a service-related test is not complete
+    const dd = new DD(ddServerParams.host, ddServerParams.port);
 
-    const serviceName = 'myserv';
-    const serviceDescription = 'example classification service';
-    const serviceMlLib = 'caffe';
-    const serviceRepository = '/home/alx/deepdetect/build/examples/all/n20';
+    const info = await dd.info();
+
+    if (info.head.services.map(s => s.name).includes(testService.name)) {
+      await dd.deleteService(testService.name);
+    }
+  });
+
+  test('access Service API', async () => {
+    const dd = new DD(ddServerParams.host, ddServerParams.port);
 
     const service = await dd.putService(
-      serviceName,
-      { repository: serviceRepository },
-      serviceDescription,
-      serviceMlLib,
+      testService.name,
+      { repository: testService.repository },
+      testService.description,
+      testService.mlLib,
       { connector: 'csv' },
       { nclasses: 9, layers: [512, 512, 512], activation: 'prelu' }
     );
@@ -40,7 +81,7 @@ describe('index.js', () => {
     expect(service.status.code).toEqual(201);
     expect(service.status.msg).toEqual('Created');
 
-    const existingService = await dd.getService(serviceName);
+    const existingService = await dd.getService(testService.name);
 
     expect(existingService).toBeDefined();
     expect(existingService.status).toBeDefined();
@@ -49,12 +90,12 @@ describe('index.js', () => {
     expect(existingService.status.code).toEqual(200);
     expect(existingService.status.msg).toEqual('OK');
 
-    expect(existingService.body.name).toEqual(serviceName);
-    expect(existingService.body.description).toEqual(serviceDescription);
-    expect(existingService.body.mllib).toEqual(serviceMlLib);
+    expect(existingService.body.name).toEqual(testService.name);
+    expect(existingService.body.description).toEqual(testService.description);
+    expect(existingService.body.mllib).toEqual(testService.mlLib);
     expect(existingService.body.jobs).toHaveLength(0);
 
-    const deletingService = await dd.deleteService(serviceName);
+    const deletingService = await dd.deleteService(testService.name);
 
     expect(deletingService).toBeDefined();
     expect(deletingService.status).toBeDefined();
@@ -63,7 +104,7 @@ describe('index.js', () => {
     expect(deletingService.status.msg).toEqual('OK');
 
     try {
-      dd.getService(serviceName);
+      dd.getService(testService.name);
     } catch (err) {
       expect(err).toBeDefined();
       expect(err.status).toBeDefined();
@@ -72,40 +113,40 @@ describe('index.js', () => {
       expect(err.status.msg).toEqual('NotFound');
     }
   });
+});
+
+describe.only('Train API', () => {
+  beforeEach(async () => {
+    // Check if test service exists, and delete it if it's the case
+    // This can happen when a service-related test is not complete
+    const dd = new DD(ddServerParams.host, ddServerParams.port);
+
+    const info = await dd.info();
+
+    if (info.head.services.map(s => s.name).includes(testService.name)) {
+      await dd.deleteService(testService.name);
+    }
+  });
 
   it(
     'access Train API',
     async () => {
-      const dd = new DD();
-
-      // const n20Repo = '/home/alx/code/deepdetect/examples/all/n20';
-
-      const serviceName = 'myserv';
-      const serviceDescription = 'example classification service';
-      const serviceMlLib = 'caffe';
-      const serviceRepository = '/home/alx/deepdetect/build/examples/all/n20';
-      const serviceModelTemplate = '../templates/caffe';
-
-      const serviceData = [
-        '/home/alx/deepdetect/build/examples/all/n20/news20',
-      ];
-
-      const iterationsN20 = 1000;
+      const dd = new DD(ddServerParams.host, ddServerParams.port);
 
       // Create service
       await dd.putService(
-        serviceName,
-        { repository: serviceRepository, templates: serviceModelTemplate },
-        serviceDescription,
-        serviceMlLib,
+        testService.name,
+        { repository: testService.repository, templates: '../templates/caffe' },
+        testService.description,
+        testService.mlLib,
         { connector: 'txt' },
         { nclasses: 20 }
       );
 
       // Train
       const train = await dd.postTrain(
-        serviceName,
-        serviceData,
+        testService.name,
+        [testService.data],
         {
           test_split: 0.2,
           shuffle: true,
@@ -116,7 +157,7 @@ describe('index.js', () => {
         {
           gpu: false,
           solver: {
-            iterations: iterationsN20,
+            iterations: 2000,
             test_interval: 200,
             base_lr: 0.05,
             snapshot: 2000,
@@ -150,8 +191,8 @@ describe('index.js', () => {
 
       // Predict with measures
       const predict = await dd.postPredict(
-        serviceName,
-        serviceData,
+        testService.name,
+        [testService.data],
         {},
         {
           gpu: false,
@@ -172,7 +213,7 @@ describe('index.js', () => {
       expect(predict.body.measure.f1).toBeGreaterThan(0.6);
 
       // Delete service
-      await dd.deleteService(serviceName, 'full');
+      await dd.deleteService(testService.name, 'full');
     },
     120000
   ); // set timeout to 120 seconds
