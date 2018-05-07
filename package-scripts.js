@@ -59,7 +59,7 @@ module.exports = {
     },
     validate: {
       description: 'Run validation to make sure everything is up to standard',
-      script: concurrent.nps('lint', 'build', 'test'),
+      script: concurrent.nps('lint', 'build'),
     },
   },
   options: {
