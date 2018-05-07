@@ -16,7 +16,9 @@
     "start": "nps --no-scripts",
     "precommit": "remove-lockfiles && lint-staged",
     "test": "nps test",
-    "doc": "cd src; groc index.js -o ../doc"
+    "doc": "cd src; groc index.js -o ../doc",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "main": "dist/index.js",
   "files": [
@@ -47,7 +49,9 @@
     "nps": "^5.7.1",
     "nps-utils": "^1.4.0",
     "prettier": "^1.7.4",
-    "remove-lockfiles": "^1.4.1"
+    "remove-lockfiles": "^1.4.1",
+    "semantic-release": "^15.3.1",
+    "travis-deploy-once": "^5.0.0"
   },
   "config": {
     "commitizen": {
