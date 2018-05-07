@@ -90,6 +90,12 @@ async () => {
 }
 ```
 
+## Testing
+
+``` yarn test ```
+
+If you find and issue with your tests, please check the header parameters available in ```src/index.test.js```.
+
 ## Contributors
 
 Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
