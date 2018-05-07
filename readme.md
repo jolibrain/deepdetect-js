@@ -8,6 +8,11 @@
 npm install --save ddjs
 ```
 
+## Files
+
+* ```src/index.js``` - client source code
+* ```src/index.test.js``` - client methods tests
+
 ## Usage
 
 ```js
