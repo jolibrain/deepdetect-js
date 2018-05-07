@@ -169,13 +169,8 @@ module.exports = class DD {
   //
   // @param {String} sname service name as a resource
   // @param {String} clear 'full','lib' or 'mem', optionally clears model repository data
-  deleteService(sname, clear) {
-    const data = {};
-
-    if (clear) {
-      data.clear = clear;
-    }
-
+  deleteService(sname, clear = 'lib') {
+    const data = { clear };
     return this.delete(`${this.urls.services}/${sname}`, data);
   }
 
