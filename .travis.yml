@@ -4,7 +4,6 @@ notifications:
 node_js:
   - 'node'
   - '6'
-  - '4'
 script: npm start validate
 after_success:
   - npm install -g codecov semantic-release
