@@ -1,11 +1,11 @@
-# ddjs
+# deepdetect-js
 
 > DeepDetect JS client
 
 ## Installation
 
 ```sh
-npm install --save ddjs
+npm install --save deepdetect-js
 ```
 
 ## Files
@@ -16,7 +16,7 @@ npm install --save ddjs
 ## Usage
 
 ```js
-import DD from 'ddjs';
+import DD from 'deepdetect-js';
 
 async () => {
 
@@ -107,7 +107,7 @@ Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contr
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/373?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx)<br />[💻](https://github.com/jolibrain/ddjs/commits?author=alx "Code") [📖](https://github.com/jolibrain/ddjs/commits?author=alx "Documentation") [🚇](#infra-alx "Infrastructure (Hosting, Build-Tools, etc)") |
+| [<img src="https://avatars3.githubusercontent.com/u/373?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx)<br />[💻](https://github.com/jolibrain/deepdetect-js/commits?author=alx "Code") [📖](https://github.com/jolibrain/deepdetect-js/commits?author=alx "Documentation") [🚇](#infra-alx "Infrastructure (Hosting, Build-Tools, etc)") |
 | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
