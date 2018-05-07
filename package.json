@@ -1,5 +1,5 @@
 {
-  "name": "deepdetect-js",
+  "name": "ddjs",
   "version": "0.0.0-development",
   "description": "DeepDetect JS client",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "email": "git@alexgirard.com",
     "url": "http://deepdetect.com"
   },
-  "repository": "https://github.com/alx/deepdetect-js",
+  "repository": "https://github.com/jolibrain/ddjs",
   "engines": {
     "node": ">=4"
   },
