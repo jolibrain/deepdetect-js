@@ -1,17 +1,17 @@
-# deepdetect-js
+# ddjs
 
 > DeepDetect JS client
 
 ## Installation
 
 ```sh
-npm install --save deepdetect-js
+npm install --save ddjs
 ```
 
 ## Usage
 
 ```js
-import DD from 'deepdetect-js';
+import DD from 'ddjs';
 
 async () => {
 
@@ -110,4 +110,4 @@ This project follows the [all-contributors](https://github.com/kentcdodds/all-co
 
 ## License
 
-MIT &copy; [Alexandre Girard](http://deepdetect.com)
+MIT &copy; [Jolibrain](http://jolibrain.com)
