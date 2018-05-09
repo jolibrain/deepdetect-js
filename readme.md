@@ -15,6 +15,10 @@ npm install --save deepdetect-js
 
 ## Usage
 
+## Connect to DeepDetect server, and fetch informations
+
+Here is the simplest way to get information about a DeepDetect server:
+
 ```js
 import DD from 'deepdetect-js';
 
@@ -25,6 +29,41 @@ async () => {
   // Get DeepDetect server info
   const info = await dd.info()
   console.log(info);
+
+}
+```
+
+You can also specified the DeepDetect server host and port options:
+
+```js
+import DD from 'deepdetect-js';
+
+async () => {
+
+  const dd = new DD('10.10.10.1', 8580)
+
+  // Get DeepDetect server info
+  const info = await dd.info()
+  console.log(info);
+
+}
+```
+
+### Service API
+
+Once connected to a DeepDetect server, the Service API allows to:
+
+* create a service
+* fetch informations about a service
+* delete a service
+
+
+```js
+import DD from 'deepdetect-js';
+
+async () => {
+
+  const dd = new DD()
 
   // Create a service
   const serviceName = 'myserv';
@@ -42,10 +81,31 @@ async () => {
     { nclasses: 20 }
   );
 
+  // Fetch service information
   const service = await dd.getService(serviceName);
   console.log(service);
 
-  // Train
+  // Delete service
+  const deleteService = await dd.deleteService(serviceName, 'full');
+}
+
+### Train API
+
+Once connected to a DeepDetect server, the Train API allows to:
+
+* Create a training job
+* Get information on a non-blocking training job
+* Kills a non-blocking training job
+
+```js
+import DD from 'deepdetect-js';
+
+async () => {
+
+  const dd = new DD()
+  const serviceName = 'myserv';
+
+  // Create a training job
   const train = await dd.postTrain(
     serviceName,
     [ '/home/me/deepdetect/examples/all/n20/news20' ],
@@ -73,6 +133,30 @@ async () => {
     false
   );
 
+  // Get information on a non-blocking training job
+  const trainingJob = await dd.getTrain(serviceName);
+  console.log(trainingJob);
+
+  // Kills a non-blocking training job
+  const deletedTrainingJob = await dd.deleteTrain(serviceName);
+  console.log(deletedTrainingJob);
+
+}
+```
+
+### Predict API
+
+Once connected to a DeepDetect server, the Predict API allows
+to makes prediction from data and model
+
+```js
+import DD from 'deepdetect-js';
+
+async () => {
+
+  const dd = new DD()
+  const serviceName = 'myserv';
+
   // Predict with measures
   const predict = await dd.postPredict(
     serviceName,
@@ -87,10 +171,6 @@ async () => {
     { measure: ['f1'] }
   );
   console.log(predict);
-
-
-  // Delete service
-  const deleteService = await dd.deleteService(serviceName, 'full');
 
 }
 ```
