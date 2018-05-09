@@ -19,11 +19,12 @@ module.exports = {
       },
     },
     build: {
-      description: 'delete the dist directory and run babel to build the files',
+      description: 'delete the dist directory and run babel/rollup to build the files',
       script: series(
         rimraf('dist'),
         'mkdir dist',
-        'babel --ignore *.test.js src/index.js | uglifyjs > dist/deepdetect.min.js'
+        'babel --ignore *.test.js src/index.js | uglifyjs > dist/deepdetect.min.js',
+        'rollup -c'
       ),
     },
     eslint: {
