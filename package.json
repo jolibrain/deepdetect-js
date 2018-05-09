@@ -15,6 +15,7 @@
   "scripts": {
     "start": "nps --no-scripts",
     "precommit": "remove-lockfiles && lint-staged",
+    "commitmsg": "commitlint -e $GIT_PARAMS",
     "test": "nps test",
     "doc": "cd src; groc index.js -o ../doc",
     "semantic-release": "semantic-release",
@@ -29,6 +30,8 @@
     "superagent": "^3.8.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^6.2.0",
+    "@commitlint/config-conventional": "^6.1.3",
     "all-contributors-cli": "^4.5.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
