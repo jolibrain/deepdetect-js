@@ -2,20 +2,53 @@
 
 > DeepDetect JS client
 
-## Installation
-
-```sh
-npm install --save deepdetect-js
-```
-
 ## Files
 
 * ```src/index.js``` - client source code
 * ```src/index.test.js``` - client methods tests
 
+* ```doc/web-example/server.js``` - simple webserver to serve web-example index.html and proxy api calls to a deepdetect server
+* ```doc/web-example/index.html``` - deepdetect-js web integration demo
+
 ## Usage
 
-## Connect to DeepDetect server, and fetch informations
+### Web integration
+
+DeepDetect-JS can be used on a webpage, you probably should run deepdetect server behind a http-proxy to avoid same-origin policy issues.
+
+A simple webserver demo is available on ```http://localhost:3000``` when running the following command:
+
+```sh
+yarn run web-example
+```
+
+Here is the simple ```/info``` api call on a DeepDetect server.
+Note the ```{path: 'api'}``` parameter when initializing ```DD``` object.
+
+```html
+...
+<script src="https://cdn.jsdelivr.net/npm/deepdetect-js@0.0.0-development/dist/deepdetect-browser.min.js"></script>
+<script>
+  async function fetchInfo() {
+    const dd = new deepdetect.DD({path: 'api'});
+    const info = await dd.info();
+    document.getElementById('infoResult').innerHTML = JSON.stringify(info);
+  }
+
+  fetchInfo();
+</script>
+...
+```
+
+### NodeJS integration
+
+Following usage examples will use nodejs, install it with this command:
+
+```sh
+npm install --save deepdetect-js
+```
+
+### Connect to DeepDetect server, and fetch informations
 
 Here is the simplest way to get information about a DeepDetect server:
 
