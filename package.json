@@ -53,7 +53,9 @@
     "prettier": "^1.7.4",
     "remove-lockfiles": "^1.4.1",
     "semantic-release": "^15.3.1",
-    "travis-deploy-once": "^5.0.0"
+    "travis-deploy-once": "^5.0.0",
+    "uglify-es": "^3.3.9",
+    "uglify-js": "^3.3.24"
   },
   "jest": {
     "testEnvironment": "node",

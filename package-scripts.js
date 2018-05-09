@@ -22,7 +22,8 @@ module.exports = {
       description: 'delete the dist directory and run babel to build the files',
       script: series(
         rimraf('dist'),
-        'babel --out-file deepdetect.min.js --out-dir dist --ignore *.test.js src/index.js'
+        'mkdir dist',
+        'babel --ignore *.test.js src/index.js | uglifyjs > dist/deepdetect.min.js'
       ),
     },
     eslint: {

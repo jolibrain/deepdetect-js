@@ -6,7 +6,6 @@
     "flow"
   ],
   "plugins": [
-    "add-module-exports",
-    "uglify:after"
+    "add-module-exports"
   ]
 }
