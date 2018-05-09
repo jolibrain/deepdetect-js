@@ -24,7 +24,7 @@ describe('Info API', () => {
   beforeEach(async () => {
     // Check if test service exists, and delete it if it's the case
     // This can happen when a service-related test is not complete
-    const dd = new DD(ddServerParams.host, ddServerParams.port);
+    const dd = new DD(ddServerParams);
 
     const info = await dd.info();
 
@@ -34,7 +34,7 @@ describe('Info API', () => {
   });
 
   test('access Info API', async () => {
-    const dd = new DD(ddServerParams.host, ddServerParams.port);
+    const dd = new DD(ddServerParams);
     const info = await dd.info();
 
     expect(info).toBeDefined();
@@ -54,7 +54,7 @@ describe('Service API', () => {
   beforeEach(async () => {
     // Check if test service exists, and delete it if it's the case
     // This can happen when a service-related test is not complete
-    const dd = new DD(ddServerParams.host, ddServerParams.port);
+    const dd = new DD(ddServerParams);
 
     const info = await dd.info();
 
@@ -64,7 +64,7 @@ describe('Service API', () => {
   });
 
   test('access Service API', async () => {
-    const dd = new DD(ddServerParams.host, ddServerParams.port);
+    const dd = new DD(ddServerParams);
 
     const service = await dd.putService(
       testService.name,
@@ -115,11 +115,11 @@ describe('Service API', () => {
   });
 });
 
-describe.only('Train API', () => {
+describe('Train API', () => {
   beforeEach(async () => {
     // Check if test service exists, and delete it if it's the case
     // This can happen when a service-related test is not complete
-    const dd = new DD(ddServerParams.host, ddServerParams.port);
+    const dd = new DD(ddServerParams);
 
     const info = await dd.info();
 
@@ -131,7 +131,7 @@ describe.only('Train API', () => {
   it(
     'access Train API',
     async () => {
-      const dd = new DD(ddServerParams.host, ddServerParams.port);
+      const dd = new DD(ddServerParams);
 
       // Create service
       await dd.putService(
@@ -157,10 +157,10 @@ describe.only('Train API', () => {
         {
           gpu: false,
           solver: {
-            iterations: 2000,
+            iterations: 1000,
             test_interval: 200,
             base_lr: 0.05,
-            snapshot: 2000,
+            snapshot: 1000,
             test_initialization: true,
           },
           net: {
