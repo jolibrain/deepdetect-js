@@ -36,7 +36,6 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-uglify": "^1.0.2",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^4.8.0",
@@ -55,7 +54,6 @@
     "semantic-release": "^15.3.1",
     "travis-deploy-once": "^5.0.0",
     "uglify-es": "^3.3.9",
-    "uglify-js": "^3.3.24"
   },
   "jest": {
     "testEnvironment": "node",
