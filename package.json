@@ -1,6 +1,6 @@
 {
   "name": "deepdetect-js",
-  "version": "0.0.0-development",
+  "version": "0.0.1",
   "description": "DeepDetect JS client",
   "license": "MIT",
   "author": {
