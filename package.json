@@ -19,7 +19,8 @@
     "test": "nps test",
     "doc": "cd src; groc index.js -o ../doc",
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "web-example": "node doc/web-example/server.js"
   },
   "main": "dist/index.js",
   "files": [
@@ -27,6 +28,7 @@
   ],
   "dependencies": {
     "groc": "^0.8.0",
+    "isomorphic-fetch": "^2.2.1",
     "superagent": "^3.8.3"
   },
   "devDependencies": {
@@ -36,12 +38,15 @@
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.1",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb-base": "12.0.2",
     "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "2.7.0",
+    "express": "^4.16.3",
+    "express-http-proxy": "^1.2.0",
     "flow-bin": "^0.71.0",
     "flow-typed": "^2.2.0",
     "husky": "^0.14.3",
@@ -51,14 +56,22 @@
     "nps-utils": "^1.4.0",
     "prettier": "^1.7.4",
     "remove-lockfiles": "^1.4.1",
+    "rollup": "^0.58.2",
+    "rollup-plugin-babel": "^3.0.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-uglify": "^3.0.0",
     "semantic-release": "^15.3.1",
     "travis-deploy-once": "^5.0.0",
-    "uglify-es": "^3.3.9",
+    "uglify-es": "^3.3.9"
   },
   "jest": {
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "src/**/*.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
     ]
   },
   "lint-staged": {
