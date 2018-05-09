@@ -1,0 +1,18 @@
+<html>
+  <body>
+    <h1>deepdetect-js - Webpage integration demo</h1>
+    <p><em>/info</em> api call result: <span id='infoResult'/></p>
+    <script src="deepdetect-browser.min.js"></script>
+    <script>
+
+      async function fetchInfo() {
+        const dd = new deepdetect.DD({path: 'api'});
+        const info = await dd.info();
+        document.getElementById('infoResult').innerHTML = JSON.stringify(info);
+      }
+
+      fetchInfo();
+
+    </script>
+  </body>
+</html>
