@@ -5,6 +5,7 @@
     "plugin:flowtype/recommended"
   ],
   "env": {
+    "browser": true,
     "jest": true,
     "node": true
   },
@@ -21,6 +22,7 @@
       "functions": "never"
     }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "strict": "off"
+    "strict": "off",
+     "import/prefer-default-export": "off"
   }
 }
