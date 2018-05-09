@@ -8,10 +8,6 @@ const series = npsUtils.series;
 
 module.exports = {
   scripts: {
-    commit: {
-      description: 'Commit changes using commitizen',
-      script: 'git-cz',
-    },
     contributors: {
       add: {
         description: 'When new people contribute to the project, run this',
