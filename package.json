@@ -1,6 +1,6 @@
 {
   "name": "deepdetect-js",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "DeepDetect JS client",
   "license": "MIT",
   "author": {
@@ -22,7 +22,7 @@
     "travis-deploy-once": "travis-deploy-once",
     "web-example": "node doc/web-example/server.js"
   },
-  "main": "dist/index.js",
+  "main": "dist/deepdetect.min.js",
   "files": [
     "dist"
   ],
