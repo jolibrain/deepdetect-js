@@ -23,7 +23,7 @@ module.exports = {
       script: series(
         rimraf('dist'),
         'mkdir dist',
-        'babel --ignore *.test.js src/index.js | uglifyjs > dist/deepdetect.min.js',
+        'babel --ignore *.test.js src/dd.js | uglifyjs > dist/deepdetect.min.js',
         'rollup -c'
       ),
     },
