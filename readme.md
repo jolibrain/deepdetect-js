@@ -106,7 +106,6 @@ async () => {
 
   const createService = await dd.putService(
     serviceName,
-    { repository: serviceRepository },
     { repository: serviceRepository, templates: '../templates/caffe' },
     serviceDescription,
     serviceMlLib,
