@@ -27,10 +27,10 @@ export class DD {
     if (opts.path != null) {
       // Browser support, uses opts.path
       // instead of opts.host and opts.port
-      this.ddurl = `${window.location}${opts.path}`;
+      this.ddurl = window.location + opts.path;
     } else {
       // NodeJS support, uses opts.host and opts.port
-      this.ddurl = `${opts.https ? 'https' : 'http'}://${opts.host}:${
+      this.ddurl = `${(opts.https ? 'https://' : 'http://') + opts.host}:${
         opts.port
       }`;
     }
@@ -210,8 +210,8 @@ export class DD {
   getTrain(sname, job = 1, timeout = 0, measureHist = false) {
     const params = {
       service: sname,
-      job: `${job}`,
-      timeout: `${timeout}`,
+      job,
+      timeout,
     };
 
     if (measureHist) {
@@ -232,7 +232,7 @@ export class DD {
   deleteTrain(sname, job = 1) {
     const params = {
       service: sname,
-      job: `${job}`,
+      job,
     };
 
     return this.delete(this.urls.train, null, params);
