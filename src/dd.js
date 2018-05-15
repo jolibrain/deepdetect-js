@@ -30,9 +30,9 @@ export class DD {
       this.ddurl = window.location + opts.path;
     } else {
       // NodeJS support, uses opts.host and opts.port
-      this.ddurl = `${(opts.https ? 'https://' : 'http://') + opts.host}:${
-        opts.port
-      }`;
+      this.ddurl = opts.https ? 'https://' : 'http://';
+      this.ddurl += opts.host;
+      this.ddurl += opts.port;
     }
   }
 
