@@ -62,7 +62,6 @@ export class DD {
           resolve(resp.json());
         })
         .catch(err => {
-          console.log(err);
           reject(err.response.json());
         });
     });
