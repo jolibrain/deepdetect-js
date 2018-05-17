@@ -24,7 +24,7 @@ module.exports = {
         rimraf('dist'),
         'mkdir dist',
         'babel --ignore *.test.js src/dd.js > dist/deepdetect.js',
-        'uglifyjs dist/deepdetect.js --output dist/deepdetect.min.js',
+        //'uglifyjs dist/deepdetect.js --output dist/deepdetect.min.js',
         'rollup -c'
       ),
     },
