@@ -34,7 +34,7 @@ export class DD {
       // NodeJS support, uses opts.host and opts.port
       this.ddurl = opts.https ? 'https://' : 'http://';
       this.ddurl += opts.host;
-      this.ddurl += opts.port;
+      this.ddurl += `:${opts.port}`;
     }
   }
 
@@ -62,6 +62,7 @@ export class DD {
           resolve(resp.json());
         })
         .catch(err => {
+          console.log(err);
           reject(err.response.json());
         });
     });
@@ -123,35 +124,8 @@ export class DD {
   // Create a service
   //
   // @param {String} sname              service name as a resource
-  // @param {Object} model              model location and optional templates
-  // @param {String} description        description of the service
-  // @param {String} mllib              ML library name, e.g. caffe
-  // @param {Object} parametersInput    input parameters
-  // @param {Object} parametersMllib    library parameters
-  // @param {Object} parametersOutput   output parameters
-  // @param {String} type               ML type
-  putService(
-    sname,
-    model,
-    description,
-    mllib,
-    parametersInput,
-    parametersMlLib,
-    parametersOutput = {},
-    type = 'supervised'
-  ) {
-    const data = {
-      description,
-      mllib,
-      type,
-      parameters: {
-        input: parametersInput,
-        mllib: parametersMlLib,
-        output: parametersOutput,
-      },
-      model,
-    };
-
+  // @param {Object} data               service parameters
+  putService(sname, data) {
     return this.put(`${this.urls.services}/${sname}`, data);
   }
 
@@ -165,9 +139,8 @@ export class DD {
   // Delete a service
   //
   // @param {String} sname service name as a resource
-  // @param {String} clear 'full','lib' or 'mem', optionally clears model repository data
-  deleteService(sname, clear = 'lib') {
-    const data = { clear };
+  // @param {Object} clear 'full','lib' or 'mem', optionally clears model repository data
+  deleteService(sname, data = { clear: 'lib' }) {
     return this.delete(`${this.urls.services}/${sname}`, data);
   }
 

@@ -100,25 +100,29 @@ async () => {
 
   // Create a service
   const serviceName = 'myserv';
-  const serviceDescription = 'example classification service';
-  const serviceMlLib = 'caffe';
-  const serviceRepository = '/home/me/models/example';
 
-  const createService = await dd.putService(
-    serviceName,
-    { repository: serviceRepository, templates: '../templates/caffe' },
-    serviceDescription,
-    serviceMlLib,
-    { connector: 'txt' },
-    { nclasses: 20 }
-  );
+  const serviceConfig = {
+    description: 'example classification service',
+    model: {
+      repository: '/home/me/models/example',
+      templates: '../templates/caffe'
+    },
+    mllib: 'caffe',
+    parameters: {
+      input: { connector: 'txt' },
+      mllib: { nclasses: 20 },
+      output: {},
+    },
+  };
+
+  const createService = await dd.putService(serviceName, serviceConfig)
 
   // Fetch service information
   const service = await dd.getService(serviceName);
   console.log(service);
 
   // Delete service
-  const deleteService = await dd.deleteService(serviceName, 'full');
+  const deleteService = await dd.deleteService(serviceName, {clear: 'full'});
 }
 
 ### Train API

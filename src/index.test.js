@@ -14,9 +14,6 @@ const ddServerParams = {
 // "${testService.repository}" folder
 const testService = {
   name: 'myserv',
-  description: 'example classification service',
-  mlLib: 'caffe',
-  repository: '/opt/eris/data1/alx/deepdetect-js/n20',
   data: '/opt/eris/data1/alx/deepdetect-js/n20/news20',
 };
 
@@ -66,14 +63,21 @@ describe('Service API', () => {
   test('access Service API', async () => {
     const dd = new DD(ddServerParams);
 
-    const service = await dd.putService(
-      testService.name,
-      { repository: testService.repository },
-      testService.description,
-      testService.mlLib,
-      { connector: 'csv' },
-      { nclasses: 9, layers: [512, 512, 512], activation: 'prelu' }
-    );
+    const serviceConfig = {
+      description: 'example classification service',
+      model: {
+        repository: '/opt/eris/data1/alx/deepdetect-js/n20',
+      },
+      mllib: 'caffe',
+      type: 'unsupervised',
+      parameters: {
+        input: { connector: 'csv' },
+        mllib: { nclasses: 9, layers: [512, 512, 512], activation: 'prelu' },
+        output: {},
+      },
+    };
+
+    const service = await dd.putService(testService.name, serviceConfig);
 
     expect(service).toBeDefined();
     expect(service.status).toBeDefined();
@@ -91,8 +95,8 @@ describe('Service API', () => {
     expect(existingService.status.msg).toEqual('OK');
 
     expect(existingService.body.name).toEqual(testService.name);
-    expect(existingService.body.description).toEqual(testService.description);
-    expect(existingService.body.mllib).toEqual(testService.mlLib);
+    expect(existingService.body.description).toEqual(serviceConfig.description);
+    expect(existingService.body.mllib).toEqual(serviceConfig.mllib);
     expect(existingService.body.jobs).toHaveLength(0);
 
     const deletingService = await dd.deleteService(testService.name);
@@ -133,15 +137,23 @@ describe('Train API', () => {
     async () => {
       const dd = new DD(ddServerParams);
 
+      const serviceConfig = {
+        description: 'example classification service',
+        model: {
+          repository: '/opt/eris/data1/alx/deepdetect-js/n20',
+          templates: '../templates/caffe',
+        },
+        mllib: 'caffe',
+        type: 'unsupervised',
+        parameters: {
+          input: { connector: 'txt' },
+          mllib: { nclasses: 20 },
+          output: {},
+        },
+      };
+
       // Create service
-      await dd.putService(
-        testService.name,
-        { repository: testService.repository, templates: '../templates/caffe' },
-        testService.description,
-        testService.mlLib,
-        { connector: 'txt' },
-        { nclasses: 20 }
-      );
+      await dd.putService(testService.name, serviceConfig);
 
       // Train
       const train = await dd.postTrain(
@@ -213,7 +225,7 @@ describe('Train API', () => {
       expect(predict.body.measure.f1).toBeGreaterThan(0.6);
 
       // Delete service
-      await dd.deleteService(testService.name, 'full');
+      await dd.deleteService(testService.name, { clear: 'full' });
     },
     120000
   ); // set timeout to 120 seconds
