@@ -1,6 +1,6 @@
 {
   "name": "deepdetect-js",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "description": "DeepDetect JS client",
   "license": "MIT",
   "author": {
@@ -22,10 +22,13 @@
     "travis-deploy-once": "travis-deploy-once",
     "web-example": "node doc/web-example/server.js"
   },
-  "main": "dist/deepdetect.min.js",
+  "main": "dist/deepdetect.js",
   "files": [
     "dist"
   ],
+  "browser": {
+    "./index.js": "./dist/deepdetect-browser.js"
+  },
   "dependencies": {
     "groc": "^0.8.0",
     "isomorphic-fetch": "^2.2.1",
@@ -59,6 +62,7 @@
     "rollup": "^0.58.2",
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
     "semantic-release": "^15.3.1",
     "travis-deploy-once": "^5.0.0",

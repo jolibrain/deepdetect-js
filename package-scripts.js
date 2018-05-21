@@ -23,9 +23,8 @@ module.exports = {
       script: series(
         rimraf('dist'),
         'mkdir dist',
-        'babel --ignore *.test.js src/dd.js > dist/deepdetect.js',
-        // 'uglifyjs dist/deepdetect.js --output dist/deepdetect.min.js',
-        'rollup -c'
+        'rollup -c > dist/deepdetect.js',
+        'BROWSER=true rollup -c > dist/deepdetect-browser.js'
       ),
     },
     eslint: {
