@@ -149,36 +149,9 @@ DD.prototype.info = function info() {
 
 // Create a service
 //
-// @param {String} sname              service name as a resource
-// @param {Object} model              model location and optional templates
-// @param {String} description        description of the service
-// @param {String} mllib              ML library name, e.g. caffe
-// @param {Object} parametersInput    input parameters
-// @param {Object} parametersMllib    library parameters
-// @param {Object} parametersOutput   output parameters
-// @param {String} type               ML type
-DD.prototype.putService = function putService(
-  sname,
-  model,
-  description,
-  mllib,
-  parametersInput,
-  parametersMlLib,
-  parametersOutput = {},
-  type = 'supervised'
-) {
-  const data = {
-    description,
-    mllib,
-    type,
-    parameters: {
-      input: parametersInput,
-      mllib: parametersMlLib,
-      output: parametersOutput,
-    },
-    model,
-  };
-
+// @param {String} sname  service name as a resource
+// @param {Object} data   service parameters
+DD.prototype.putService = function putService(sname, data) {
   return this._put(`${this.urls.services}/${sname}`, data);
 };
 
@@ -193,8 +166,10 @@ DD.prototype.getService = function getService(sname) {
 //
 // @param {String} sname service name as a resource
 // @param {String} clear 'full','lib' or 'mem', optionally clears model repository data
-DD.prototype.deleteService = function deleteService(sname, clear = 'lib') {
-  const data = { clear };
+DD.prototype.deleteService = function deleteService(
+  sname,
+  data = { clear: 'lib' }
+) {
   return this._delete(`${this.urls.services}/${sname}`, data);
 };
 
