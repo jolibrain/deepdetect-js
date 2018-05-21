@@ -90,7 +90,6 @@ Once connected to a DeepDetect server, the Service API allows to:
 * fetch informations about a service
 * delete a service
 
-
 ```js
 import DD from 'deepdetect-js';
 
@@ -124,6 +123,7 @@ async () => {
   // Delete service
   const deleteService = await dd.deleteService(serviceName, {clear: 'full'});
 }
+```
 
 ### Train API
 
