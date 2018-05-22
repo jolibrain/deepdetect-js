@@ -194,18 +194,24 @@ async () => {
   const serviceName = 'myserv';
 
   // Predict with measures
-  const predict = await dd.postPredict(
-    serviceName,
-    [ '/home/me/deepdetect/examples/all/n20/news20' ],
-    {},
-    {
-      gpu: false,
-      net: {
-        test_batch_size: 10,
+  const postData = {
+    service: serviceName,
+    data: [ '/home/me/deepdetect/examples/all/n20/news20' ],
+    parameters: {
+      input: {},
+      mllib: {
+        gpu: false,
+        net: {
+          test_batch_size: 10,
+        },
       },
-    },
-    { measure: ['f1'] }
-  );
+      output: {
+        measure: ['f1']
+      }
+    }
+  };
+
+  const predict = await dd.postPredict(postData)
   console.log(predict);
 
 }

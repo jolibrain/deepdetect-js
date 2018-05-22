@@ -255,30 +255,3 @@ DD.prototype.deleteTrain = function deleteTrain(sname, job = 1) {
 DD.prototype.postPredict = function postPredict(postData) {
   return this._post(this.urls.predict, postData);
 };
-
-// Makes prediction from data and model
-//
-// @param {String} name               service name as a resource
-// @param {Array} data                array of data URI to predict from
-// @param {Object} parametersInput   input parameters
-// @param {Object} parametersMlLib   library parameters
-// @param {Object} parametersOutput  output parameters
-DD.prototype.postPredict = function postPredict(
-  sname,
-  data,
-  parametersInput,
-  parametersMlLib,
-  parametersOutput
-) {
-  const postData = {
-    service: sname,
-    parameters: {
-      input: parametersInput,
-      mllib: parametersMlLib,
-      output: parametersOutput,
-    },
-    data,
-  };
-
-  return this._post(this.urls.predict, postData);
-};

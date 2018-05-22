@@ -202,18 +202,23 @@ describe('Train API', () => {
       expect(train.body.measure.acc).toEqual(train.body.measure.accp);
 
       // Predict with measures
-      const predict = await dd.postPredict(
-        testService.name,
-        [testService.data],
-        {},
-        {
-          gpu: false,
-          net: {
-            test_batch_size: 10,
+      const postData = {
+        service: testService.name,
+        data: [testService.data],
+        parameters: {
+          input: {},
+          mllib: {
+            gpu: false,
+            net: {
+              test_batch_size: 10,
+            },
+          },
+          output: {
+            measure: ['f1'],
           },
         },
-        { measure: ['f1'] }
-      );
+      };
+      const predict = await dd.postPredict(postData);
 
       expect(predict).toBeDefined();
       expect(predict.status).toBeDefined();
