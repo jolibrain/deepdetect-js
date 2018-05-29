@@ -89,7 +89,7 @@ DD.prototype._httpRequest = function _httpRequest(
         resolve(resp.json());
       })
       .catch(err => {
-        reject(err.response.json());
+        reject(new Error(err));
       });
   });
 };
