@@ -4,6 +4,10 @@ notifications:
 node_js:
   - 'node'
   - '6'
+deploy:
+  provider: npm
+  email: npm@alexgirard.com
+  api_key: $NPM_TOKEN
 script: npm start validate
 after_success:
   - npm install -g codecov semantic-release
