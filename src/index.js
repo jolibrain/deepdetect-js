@@ -34,7 +34,7 @@ function DD(opts = {
 
   if (process.browser) {
     // Browser support, uses window.location by default
-    this.ddurl = window.location;
+    this.ddurl = window.location.origin;
 
     if (opts.host != null) {
       this.ddurl = opts.https ? 'https://' : 'http://';
@@ -42,7 +42,7 @@ function DD(opts = {
     }
 
     if (opts.port != null) {
-      this.ddurl += opts.host;
+      this.ddurl += `:${opts.host}`;
     }
 
     if (opts.path != null) {
