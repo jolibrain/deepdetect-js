@@ -32,7 +32,11 @@ function DD(opts = {
 
   this.urls = API_METHODS_URL[opts.apiversion || 0.1];
 
-  if (process.browser) {
+  if (
+    typeof window !== 'undefined' &&
+    typeof window.location !== 'undefined' &&
+    typeof window.location.origin !== 'undefined'
+  ) {
     // Browser support, uses window.location by default
     this.ddurl = window.location.origin;
 
