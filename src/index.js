@@ -36,16 +36,16 @@ function DD(opts = {
     // Browser support, uses window.location by default
     this.ddurl = window.location.origin;
 
-    if (opts.host != null) {
+    if (typeof opts.host !== 'undefined') {
       this.ddurl = opts.https ? 'https://' : 'http://';
       this.ddurl += opts.host;
     }
 
-    if (opts.port != null) {
+    if (typeof opts.port !== 'undefined') {
       this.ddurl += `:${opts.host}`;
     }
 
-    if (opts.path != null) {
+    if (typeof opts.path !== 'undefined') {
       this.ddurl += opts.path;
     }
   } else {
@@ -54,7 +54,7 @@ function DD(opts = {
     this.ddurl += opts.host;
     this.ddurl += `:${opts.port}`;
 
-    if (opts.path != null) {
+    if (typeof opts.path !== 'undefined') {
       this.ddurl += opts.path;
     }
   }
