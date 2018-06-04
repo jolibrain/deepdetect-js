@@ -145,8 +145,8 @@ DD.prototype._delete = function _delete(method, json = null, params = null) {
 // **API Info**
 
 // Info on the DeepDetect server
-DD.prototype.info = function info() {
-  return this._get(this.urls.info, null, null);
+DD.prototype.info = function info(params = {}) {
+  return this._get(this.urls.info, null, params);
 };
 
 // **API Service**
