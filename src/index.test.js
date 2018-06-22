@@ -4,7 +4,7 @@ import DD from './index';
 // your own DeepDetect server configuration
 const ddServerParams = {
   host: '127.0.0.1',
-  port: 8580,
+  port: 8080,
 };
 
 // Change these parameters in accord with
@@ -14,7 +14,7 @@ const ddServerParams = {
 // "${testService.repository}" folder
 const testService = {
   name: 'myserv',
-  data: '/opt/eris/data1/alx/deepdetect-js/n20/news20',
+  data: 'http://i.ytimg.com/vi/0vxOhd4qlnA/maxresdefault.jpg',
 };
 
 describe('Info API', () => {
@@ -66,7 +66,7 @@ describe('Service API', () => {
     const serviceConfig = {
       description: 'example classification service',
       model: {
-        repository: '/opt/eris/data1/alx/deepdetect-js/n20',
+        repository: '/opt/models/ggnet/',
       },
       mllib: 'caffe',
       type: 'unsupervised',
@@ -106,9 +106,13 @@ describe('Service API', () => {
 
     expect(deletingService.status.code).toEqual(200);
     expect(deletingService.status.msg).toEqual('OK');
+  });
+
+  test('return http error on unexisting service', async () => {
+    const dd = new DD(ddServerParams);
 
     try {
-      dd.getService(testService.name);
+      await dd.getService(testService.name);
     } catch (err) {
       expect(err).toBeDefined();
       expect(err.status).toBeDefined();
@@ -138,16 +142,22 @@ describe('Train API', () => {
       const dd = new DD(ddServerParams);
 
       const serviceConfig = {
-        description: 'example classification service',
+        description: 'image classification service',
         model: {
-          repository: '/opt/eris/data1/alx/deepdetect-js/n20',
-          templates: '../templates/caffe',
+          repository: '/opt/models/ggnet',
+          templates: '../templates/caffe/',
         },
         mllib: 'caffe',
-        type: 'unsupervised',
+        type: 'supervised',
         parameters: {
-          input: { connector: 'txt' },
-          mllib: { nclasses: 20 },
+          input: {
+            connector: 'image',
+            width: 224,
+            height: 224,
+          },
+          mllib: {
+            nclasses: 5,
+          },
           output: {},
         },
       };
@@ -160,26 +170,29 @@ describe('Train API', () => {
         testService.name,
         [testService.data],
         {
-          test_split: 0.2,
-          shuffle: true,
-          min_count: 10,
-          min_word_length: 3,
-          count: false,
-        },
-        {
-          gpu: false,
-          solver: {
-            iterations: 1000,
-            test_interval: 200,
-            base_lr: 0.05,
-            snapshot: 1000,
-            test_initialization: true,
+          mllib: {
+            net: {
+              batch_size: 32,
+            },
+            solver: {
+              test_interval: 500,
+              iterations: 30000,
+              base_lr: 0.001,
+              stepsize: 1000,
+              gamma: 0.9,
+            },
           },
-          net: {
-            batch_size: 100,
+          input: {
+            connector: 'image',
+            test_split: 0.1,
+            shuffle: true,
+            width: 224,
+            height: 224,
+          },
+          output: {
+            measure: ['acc', 'mcll', 'f1'],
           },
         },
-        { measure: ['acc', 'mcll', 'f1'] },
         false
       );
 

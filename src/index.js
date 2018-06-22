@@ -64,84 +64,6 @@ function DD(opts = {
   }
 }
 
-// **HTTP requests to the DeepDetect server**
-
-// HTTP request to DeepDetect server
-//
-// @param {String} httpMethod GET/POST/PUT/DELETE
-// @param {String} apiMethod DeepDetect api method
-// @param {Object} json
-// @param {Object} params
-DD.prototype._httpRequest = function _httpRequest(
-  httpMethod,
-  apiMethod,
-  json = null,
-  params = null
-) {
-  return new Promise((resolve, reject) => {
-    const url = this.ddurl + apiMethod;
-    const requestParams = { method: httpMethod };
-
-    if (json != null) {
-      requestParams.body = JSON.stringify(json);
-    } else if (params != null) {
-      requestParams.search = new URLSearchParams(params);
-    }
-
-    fetch(url, requestParams)
-      .then(resp => {
-        resolve(resp.json());
-      })
-      .catch(err => {
-        reject(new Error(err));
-      });
-  });
-};
-
-// GET to DeepDetect server
-//
-// @param {String} method
-// @param {Object} json
-// @param {Object} params
-DD.prototype._get = function _get(method, json = null, params = null) {
-  return this._httpRequest('get', method, json, params)
-    .then(body => body)
-    .catch(err => err);
-};
-
-// PUT to DeepDetect server
-//
-// @param {String} method
-// @param {Object} json
-// @param {Object} params
-DD.prototype._put = function _put(method, json = null, params = null) {
-  return this._httpRequest('put', method, json, params)
-    .then(body => body)
-    .catch(err => err);
-};
-
-// POST to DeepDetect server
-//
-// @param {String} method
-// @param {Object} json
-// @param {Object} params
-DD.prototype._post = function _post(method, json = null, params = null) {
-  return this._httpRequest('post', method, json, params)
-    .then(body => body)
-    .catch(err => err);
-};
-
-// DELETE to DeepDetect server
-//
-// @param {String} method
-// @param {Object} json
-// @param {Object} params
-DD.prototype._delete = function _delete(method, json = null, params = null) {
-  return this._httpRequest('delete', method, json, params)
-    .then(body => body)
-    .catch(err => err);
-};
-
 // **API Info**
 
 // Info on the DeepDetect server
@@ -190,19 +112,13 @@ DD.prototype.deleteService = function deleteService(
 DD.prototype.postTrain = function postTrain(
   sname,
   data,
-  parametersInput,
-  parametersMlLib,
-  parametersOutput,
+  parameters,
   asyncParam = true
 ) {
   const postData = {
     service: sname,
     data,
-    parameters: {
-      input: parametersInput,
-      mllib: parametersMlLib,
-      output: parametersOutput,
-    },
+    parameters,
     async: asyncParam,
   };
 
@@ -258,4 +174,89 @@ DD.prototype.deleteTrain = function deleteTrain(sname, job = 1) {
 // @param {Object} postData   prediction parameters
 DD.prototype.postPredict = function postPredict(postData) {
   return this._post(this.urls.predict, postData);
+};
+
+// **HTTP requests to the DeepDetect server**
+
+// HTTP request to DeepDetect server
+//
+// @param {String} httpMethod GET/POST/PUT/DELETE
+// @param {String} apiMethod DeepDetect api method
+// @param {Object} jsonParams
+// @param {Object} searchParams
+DD.prototype._httpRequest = function _httpRequest(
+  httpMethod,
+  apiMethod,
+  jsonParams = null,
+  searchParams = null
+) {
+  return new Promise(async (resolve, reject) => {
+    const url = this.ddurl + apiMethod;
+    const requestParams = { method: httpMethod };
+
+    if (jsonParams != null) {
+      requestParams.body = JSON.stringify(jsonParams);
+    } else if (searchParams != null) {
+      requestParams.search = new URLSearchParams(searchParams);
+    }
+
+    fetch(url, requestParams).then(response => {
+      response.json().then(json => {
+        if (response.status >= 200 && response.status < 300) {
+          return resolve(json);
+        }
+        const error = new Error();
+        error.status = json.status;
+        return reject(error);
+      });
+    });
+  });
+};
+
+// GET to DeepDetect server
+//
+// @param {String} method
+// @param {Object} json
+// @param {Object} params
+DD.prototype._get = function _get(method, json = null, params = null) {
+  return this._httpRequest('get', method, json, params)
+    .then(body => body)
+    .catch(err => {
+      throw err;
+    });
+};
+
+// PUT to DeepDetect server
+//
+// @param {String} method
+// @param {Object} json
+// @param {Object} params
+DD.prototype._put = function _put(method, json = null, params = null) {
+  return this._httpRequest('put', method, json, params)
+    .then(body => body)
+    .catch(err => {
+      throw err;
+    });
+};
+
+// POST to DeepDetect server
+//
+// @param {String} method
+// @param {Object} json
+// @param {Object} params
+DD.prototype._post = function _post(method, json = null, params = null) {
+  return this._httpRequest('post', method, json, params)
+    .then(body => body)
+    .catch(err => err);
+};
+
+// DELETE to DeepDetect server
+//
+// @param {String} method
+// @param {Object} json
+// @param {Object} params
+DD.prototype._delete = function _delete(method, json = null, params = null) {
+  return this._httpRequest('delete', method, json, params)
+    .then(body => body)
+    .catch(err => err);
 };

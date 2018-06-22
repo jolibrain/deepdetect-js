@@ -1,6 +1,6 @@
 {
   "name": "deepdetect-js",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "DeepDetect JS client",
   "license": "MIT",
   "author": {
@@ -10,7 +10,7 @@
   },
   "repository": "https://github.com/jolibrain/deepdetect-js",
   "engines": {
-    "node": ">=4"
+    "node": ">=10.5"
   },
   "scripts": {
     "start": "nps --no-scripts",
@@ -53,7 +53,7 @@
     "flow-bin": "^0.71.0",
     "flow-typed": "^2.2.0",
     "husky": "^0.14.3",
-    "jest": "^21.2.1",
+    "jest": "^23.1.0",
     "lint-staged": "^4.2.3",
     "nps": "^5.7.1",
     "nps-utils": "^1.4.0",
