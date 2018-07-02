@@ -207,8 +207,7 @@ DD.prototype._httpRequest = function _httpRequest(
       response
         .json()
         .catch(() => {
-          const error = new Error();
-          error.status = 'Error parsing json';
+          const error = new Error('Error parsing json');
           return reject(error);
         })
         .then(json => {
