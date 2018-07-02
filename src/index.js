@@ -204,14 +204,21 @@ DD.prototype._httpRequest = function _httpRequest(
     }
 
     fetch(url, requestParams).then(response => {
-      response.json().then(json => {
-        if (response.status >= 200 && response.status < 300) {
-          return resolve(json);
-        }
-        const error = new Error();
-        error.status = json.status;
-        return reject(error);
-      });
+      response
+        .json()
+        .catch(() => {
+          const error = new Error();
+          error.status = 'Error parsing json';
+          return reject(error);
+        })
+        .then(json => {
+          if (response.status >= 200 && response.status < 300) {
+            return resolve(json);
+          }
+          const error = new Error();
+          error.status = json.status;
+          return reject(error);
+        });
     });
   });
 };
