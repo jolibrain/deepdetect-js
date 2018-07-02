@@ -191,13 +191,16 @@ DD.prototype._httpRequest = function _httpRequest(
   searchParams = null
 ) {
   return new Promise(async (resolve, reject) => {
-    const url = this.ddurl + apiMethod;
+    let url = this.ddurl + apiMethod;
     const requestParams = { method: httpMethod };
 
     if (jsonParams != null) {
       requestParams.body = JSON.stringify(jsonParams);
     } else if (searchParams != null) {
-      requestParams.search = new URLSearchParams(searchParams);
+      const urlParameters = Object.entries(searchParams)
+        .map(e => e.join('='))
+        .join('&');
+      url += `?${urlParameters}`;
     }
 
     fetch(url, requestParams).then(response => {
