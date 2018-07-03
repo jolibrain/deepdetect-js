@@ -144,11 +144,7 @@ DD.prototype.getTrain = function getTrain(
   };
 
   if (measureHist) {
-    params.parameters = {
-      output: {
-        measureHist: true,
-      },
-    };
+    params['parameters.output.measureHist'] = true;
   }
 
   return this._get(this.urls.train, null, params);
