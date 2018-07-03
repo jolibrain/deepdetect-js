@@ -206,10 +206,7 @@ DD.prototype._httpRequest = function _httpRequest(
     fetch(url, requestParams).then(response => {
       response
         .json()
-        .catch(() => {
-          const error = new Error('Error parsing json');
-          return reject(error);
-        })
+        .catch(error => reject(error))
         .then(json => {
           if (response.status >= 200 && response.status < 300) {
             return resolve(json);

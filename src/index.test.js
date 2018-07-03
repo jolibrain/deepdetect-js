@@ -17,6 +17,90 @@ const testService = {
   data: 'http://i.ytimg.com/vi/0vxOhd4qlnA/maxresdefault.jpg',
 };
 
+describe.only('Error catching', () => {
+  beforeEach(async () => {
+    // Check if test service exists, and delete it if it's the case
+    // This can happen when a service-related test is not complete
+    const dd = new DD(ddServerParams);
+
+    const info = await dd.info();
+
+    if (info.head.services.map(s => s.name).includes(testService.name)) {
+      await dd.deleteService(testService.name);
+    }
+  });
+
+  test('return http error on unexisting service', async () => {
+    const dd = new DD(ddServerParams);
+
+    try {
+      await dd.getService(testService.name);
+    } catch (err) {
+      expect(err).toBeDefined();
+      expect(err.status).toBeDefined();
+
+      expect(err.status.code).toEqual(404);
+      expect(err.status.msg).toEqual('NotFound');
+    }
+  });
+
+  test('return a parsing error when json not returned', async () => {
+    const dd = new DD({
+      host: '1.1.1.1',
+      port: 80,
+    });
+
+    try {
+      await dd.getService(testService.name);
+    } catch (err) {
+      expect(err).toBeDefined();
+
+      expect(err.name).toBeDefined();
+      expect(err.message).toBeDefined();
+      expect(err.type).toBeDefined();
+
+      expect(err.name).toEqual('FetchError');
+      expect(err.message).toContain('Unexpected token < in JSON at position 0');
+      expect(err.type).toEqual('invalid-json');
+    }
+  });
+
+  test('handle BadRequest error when creating a new service', async () => {
+    const dd = new DD(ddServerParams);
+
+    try {
+      await dd.putService('test', {
+        description: '',
+        model: {
+          repository:
+            '/opt/platform/models/private/traffic_detect_SSD_v1_300x300',
+        },
+        mllib: 'caffe',
+        type: 'supervised',
+        parameters: {
+          input: { connector: 'image', height: 300, width: 300 },
+          mllib: { nclasses: 2, gpu: true, gpuid: 0 },
+        },
+      });
+    } catch (err) {
+      expect(err).toBeDefined();
+
+      expect(err.name).toBeDefined();
+      expect(err.status).toBeDefined();
+
+      expect(err.status.code).toBeDefined();
+      expect(err.status.msg).toBeDefined();
+      expect(err.status.dd_code).toBeDefined();
+      expect(err.status.dd_msg).toBeDefined();
+
+      expect(err.status.code).toEqual(400);
+      expect(err.status.msg).toEqual('BadRequest');
+      expect(err.status.dd_code).toEqual(1006);
+      expect(err.status.dd_msg).toEqual('Service Bad Request Error');
+    }
+  });
+});
+
 describe('Info API', () => {
   beforeEach(async () => {
     // Check if test service exists, and delete it if it's the case
@@ -106,20 +190,6 @@ describe('Service API', () => {
 
     expect(deletingService.status.code).toEqual(200);
     expect(deletingService.status.msg).toEqual('OK');
-  });
-
-  test('return http error on unexisting service', async () => {
-    const dd = new DD(ddServerParams);
-
-    try {
-      await dd.getService(testService.name);
-    } catch (err) {
-      expect(err).toBeDefined();
-      expect(err.status).toBeDefined();
-
-      expect(err.status.code).toEqual(404);
-      expect(err.status.msg).toEqual('NotFound');
-    }
   });
 });
 
