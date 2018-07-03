@@ -212,7 +212,11 @@ DD.prototype._httpRequest = function _httpRequest(
             return resolve(json);
           }
           const error = new Error();
-          error.status = json.status;
+          if (json && json.status) {
+            error.status = json.status;
+          } else if (response.statusText) {
+            error.status = response.statusText;
+          }
           return reject(error);
         });
     });
