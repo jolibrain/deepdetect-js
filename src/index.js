@@ -144,7 +144,7 @@ DD.prototype.getTrain = function getTrain(
   };
 
   if (measureHist) {
-    params['parameters.output.measureHist'] = true;
+    params['parameters.output.measure_hist'] = true;
   }
 
   return this._get(this.urls.train, null, params);
