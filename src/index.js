@@ -135,7 +135,8 @@ DD.prototype.getTrain = function getTrain(
   sname,
   job = 1,
   timeout = 0,
-  measureHist = false
+  measureHist = false,
+  maxHistPoints = null
 ) {
   const params = {
     service: sname,
@@ -145,6 +146,14 @@ DD.prototype.getTrain = function getTrain(
 
   if (measureHist) {
     params['parameters.output.measure_hist'] = true;
+
+    if (
+      !Number.isNaN(maxHistPoints) &&
+      parseInt(Number(maxHistPoints), 10) === maxHistPoints &&
+      !Number.isNaN(parseInt(maxHistPoints, 10))
+    ) {
+      params['parameters.output.max_hist_points'] = parseInt(maxHistPoints, 10);
+    }
   }
 
   return this._get(this.urls.train, null, params);
