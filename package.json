@@ -4,7 +4,7 @@
   "description": "DeepDetect JS client",
   "main": "lib/deepdetect.js",
   "scripts": {
-    "build": "webpack --env dev && webpack --env build && npm run test",
+    "build": "webpack --env dev && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --require babel-register --require babel-polyfill --colors ./test/*.spec.js",
     "test:watch": "mocha --require babel-register --require babel-polyfill --colors -w ./test/*.spec.js -w ./src/*.js"
