@@ -1,11 +1,6 @@
 {
-  "presets": [
-    ["env", {
-      "targets": { "node": 4 }
-    }],
-    "flow"
-  ],
+  "presets": ["env"],
   "plugins": [
-    "add-module-exports"
+    "babel-plugin-add-module-exports"
   ]
 }

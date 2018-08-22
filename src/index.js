@@ -1,12 +1,9 @@
 /* eslint-env es6 */
 
-'use strict';
-
 if (!process.browser) {
   require('isomorphic-fetch'); // eslint-disable-line global-require
 }
 
-module.exports = DD; // eslint-disable-line no-use-before-define
 DD.prototype = {}; // eslint-disable-line no-use-before-define
 
 // DD class constructor
@@ -14,20 +11,22 @@ DD.prototype = {}; // eslint-disable-line no-use-before-define
 // @param {Integer} port the DeepDetect server port
 // @param {Boolean} https http (default) or https connection
 // @param {String} apiversion url api version
-function DD(opts = {
-  host: 'localhost',
-  port: 8080,
-  path: null,
-  https: false,
-  apiversion: '0.1',
-}) {
+function DD(
+  opts = {
+    host: 'localhost',
+    port: 8080,
+    path: null,
+    https: false,
+    apiversion: '0.1'
+  }
+) {
   const API_METHODS_URL = {
     0.1: {
       info: '/info',
       services: '/services',
       train: '/train',
-      predict: '/predict',
-    },
+      predict: '/predict'
+    }
   };
 
   this.urls = API_METHODS_URL[opts.apiversion || 0.1];
@@ -46,7 +45,7 @@ function DD(opts = {
     }
 
     if (typeof opts.port !== 'undefined') {
-      this.ddurl += `:${opts.host}`;
+      this.ddurl += `:${opts.port}`;
     }
 
     if (typeof opts.path !== 'undefined') {
@@ -119,7 +118,7 @@ DD.prototype.postTrain = function postTrain(
     service: sname,
     data,
     parameters,
-    async: asyncParam,
+    async: asyncParam
   };
 
   return this._post(this.urls.train, postData);
@@ -141,15 +140,15 @@ DD.prototype.getTrain = function getTrain(
   const params = {
     service: sname,
     job,
-    timeout,
+    timeout
   };
 
   if (measureHist) {
     params['parameters.output.measure_hist'] = true;
   } else if (
     !Number.isNaN(maxHistPoints) &&
-      parseInt(Number(maxHistPoints), 10) === maxHistPoints &&
-      !Number.isNaN(parseInt(maxHistPoints, 10))
+    parseInt(Number(maxHistPoints), 10) === maxHistPoints &&
+    !Number.isNaN(parseInt(maxHistPoints, 10))
   ) {
     params['parameters.output.max_hist_points'] = parseInt(maxHistPoints, 10);
   }
@@ -164,7 +163,7 @@ DD.prototype.getTrain = function getTrain(
 DD.prototype.deleteTrain = function deleteTrain(sname, job = 1) {
   const params = {
     service: sname,
-    job,
+    job
   };
 
   return this._delete(this.urls.train, null, params);
@@ -203,6 +202,7 @@ DD.prototype._httpRequest = function _httpRequest(
       const urlParameters = Object.entries(searchParams)
         .map(e => e.join('='))
         .join('&');
+
       url += `?${urlParameters}`;
     }
 
@@ -215,6 +215,7 @@ DD.prototype._httpRequest = function _httpRequest(
             return resolve(json);
           }
           const error = new Error();
+
           if (json && json.status) {
             error.status = json.status;
           } else if (response.statusText) {
@@ -273,3 +274,5 @@ DD.prototype._delete = function _delete(method, json = null, params = null) {
     .then(body => body)
     .catch(err => err);
 };
+
+export default DD;
