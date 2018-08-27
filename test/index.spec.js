@@ -10,7 +10,7 @@ const expect = chai.expect;
 // your own DeepDetect server configuration
 const ddServerParams = {
   host: '127.0.0.1',
-  port: 8080,
+  port: 8910,
 };
 
 // Change these parameters in accord with
