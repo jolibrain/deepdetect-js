@@ -192,7 +192,7 @@ export default class DD {
     jsonParams = null,
     searchParams = null
   ) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let url = this.ddurl + apiMethod;
       const requestParams = { method: httpMethod };
 
