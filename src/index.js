@@ -20,6 +20,7 @@ export default class DD {
       apiversion: '0.1'
     }
   ) {
+
     const API_METHODS_URL = {
       0.1: {
         info: '/info',
@@ -31,36 +32,11 @@ export default class DD {
 
     this.urls = API_METHODS_URL[opts.apiversion || 0.1];
 
-    if (
-      typeof window !== 'undefined' &&
-      typeof window.location !== 'undefined' &&
-      typeof window.location.origin !== 'undefined'
-    ) {
-      // Browser support, uses window.location by default
-      this.ddurl = window.location.origin;
+    this.ddurl = opts.https ? 'https://' : 'http://';
+    this.ddurl += opts.host ? opts.host : 'localhost';
+    this.ddurl += opts.port ? `:${opts.port}` : ':8080';
+    this.ddurl += opts.path ? opts.path : '';
 
-      if (typeof opts.host !== 'undefined') {
-        this.ddurl = opts.https ? 'https://' : 'http://';
-        this.ddurl += opts.host;
-      }
-
-      if (typeof opts.port !== 'undefined') {
-        this.ddurl += `:${opts.port}`;
-      }
-
-      if (typeof opts.path !== 'undefined') {
-        this.ddurl += opts.path;
-      }
-    } else {
-      // NodeJS support
-      this.ddurl = opts.https ? 'https://' : 'http://';
-      this.ddurl += opts.host;
-      this.ddurl += `:${opts.port}`;
-
-      if (typeof opts.path !== 'undefined') {
-        this.ddurl += opts.path;
-      }
-    }
   }
 
   // **API Info**

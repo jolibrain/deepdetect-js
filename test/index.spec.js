@@ -10,7 +10,7 @@ const expect = chai.expect;
 // your own DeepDetect server configuration
 const ddServerParams = {
   host: '127.0.0.1',
-  port: 8910,
+  port: 8080,
 };
 
 // Change these parameters in accord with
@@ -110,6 +110,59 @@ describe('Error catching', () => {
         expect(err.status.dd_msg).to.have.string('Service Bad Request Error');
       }
     });
+  });
+
+});
+
+describe('ddurl init', () => {
+  before(async () => {
+    // Check if test service exists, and delete it if it's the case
+    // This can happen when a service-related test is not complete
+    const dd = new DD(ddServerParams);
+
+    const info = await dd.info();
+
+    if (info.head.services.map(s => s.name).includes(testService.name)) {
+      await dd.deleteService(testService.name);
+    }
+  });
+
+  it('has defaults', () => {
+    const dd = new DD();
+
+    expect(dd.ddurl).to.equal('http://localhost:8080');
+  });
+
+  it('has host', () => {
+    const dd = new DD({
+      host: '10.10.10.1'
+    });
+
+    expect(dd.ddurl).to.equal('http://10.10.10.1:8080');
+  });
+
+  it('has port', () => {
+    const dd = new DD({
+      port: 8888
+    });
+
+    expect(dd.ddurl).to.equal('http://localhost:8888');
+  });
+
+  it('has path', () => {
+    const dd = new DD({
+      path: '/api'
+    });
+
+    expect(dd.ddurl).to.equal('http://localhost:8080/api');
+  });
+
+  it('has https', () => {
+    const dd = new DD({
+      https: true
+    });
+
+    expect(dd.ddurl).to.equal('https://localhost:8080');
   });
 
 });
