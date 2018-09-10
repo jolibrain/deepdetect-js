@@ -18,7 +18,7 @@ export default class DD {
       path: null,
       https: false,
       apiversion: '0.1',
-      fetch_timeout: 5000
+      fetchTimeout: 5000
     }
   ) {
 
@@ -38,7 +38,7 @@ export default class DD {
     this.ddurl += opts.port ? `:${opts.port}` : ':8080';
     this.ddurl += opts.path ? opts.path : '';
 
-    this.fetch_timeout = opts.fetch_timeout ? opts.fetch_timeout : 5000;
+    this.fetchTimeout = opts.fetchTimeout ? opts.fetchTimeout : 5000;
 
   }
 
@@ -189,7 +189,7 @@ export default class DD {
       // Set timeout timer
       let timer = setTimeout(
         () => reject(new Error('Request timed out')),
-        this.fetch_timeout
+        this.fetchTimeout
       );
 
       fetch(url, requestParams).then(response => {
@@ -209,7 +209,7 @@ export default class DD {
             }
             return reject(error);
           });
-      }).finally( () => clearTimeout(timer) );
+      }).finally(() => clearTimeout(timer));
     });
   };
 
