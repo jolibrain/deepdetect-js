@@ -33,9 +33,21 @@ export default class DD {
 
     this.urls = API_METHODS_URL[opts.apiversion || 0.1];
 
-    this.ddurl = opts.https ? 'https://' : 'http://';
-    this.ddurl += opts.host ? opts.host : 'localhost';
-    this.ddurl += opts.port ? `:${opts.port}` : ':8080';
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.location !== 'undefined' &&
+      typeof window.location.origin !== 'undefined' &&
+      typeof opts.host === 'undefined'
+    ) {
+      // Browser support, uses window.location by default
+      this.ddurl = window.location.origin;
+    } else {
+      // NodeJS support
+      this.ddurl = opts.https ? 'https://' : 'http://';
+      this.ddurl += opts.host ? opts.port : 'localhost';
+      this.ddurl += opts.port ? `:${opts.port}` : '';
+    }
+
     this.ddurl += opts.path ? opts.path : '';
 
     this.fetchTimeout = opts.fetchTimeout ? opts.fetchTimeout : 5000;
