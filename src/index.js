@@ -17,7 +17,8 @@ export default class DD {
       port: 8080,
       path: null,
       https: false,
-      apiversion: '0.1'
+      apiversion: '0.1',
+      fetch_timeout: 5000
     }
   ) {
 
@@ -36,6 +37,8 @@ export default class DD {
     this.ddurl += opts.host ? opts.host : 'localhost';
     this.ddurl += opts.port ? `:${opts.port}` : ':8080';
     this.ddurl += opts.path ? opts.path : '';
+
+    this.fetch_timeout = opts.fetch_timeout ? opts.fetch_timeout : 5000;
 
   }
 
@@ -169,6 +172,7 @@ export default class DD {
     searchParams = null
   ) {
     return new Promise((resolve, reject) => {
+
       let url = this.ddurl + apiMethod;
       const requestParams = { method: httpMethod };
 
@@ -181,6 +185,12 @@ export default class DD {
 
         url += `?${urlParameters}`;
       }
+
+      // Set timeout timer
+      let timer = setTimeout(
+        () => reject(new Error('Request timed out')),
+        this.fetch_timeout
+      );
 
       fetch(url, requestParams).then(response => {
         response
@@ -199,7 +209,7 @@ export default class DD {
             }
             return reject(error);
           });
-      });
+      }).finally( () => clearTimeout(timer) );
     });
   };
 
