@@ -44,7 +44,7 @@ export default class DD {
     } else {
       // NodeJS support
       this.ddurl = opts.https ? 'https://' : 'http://';
-      this.ddurl += opts.host ? opts.port : 'localhost';
+      this.ddurl += opts.host ? opts.host : 'localhost';
       this.ddurl += opts.port ? `:${opts.port}` : '';
     }
 
