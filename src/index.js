@@ -107,9 +107,9 @@ export default class DD {
   ) {
     const postData = {
       service: sname,
-      data,
-      parameters,
-      async: asyncParam
+      'async': asyncParam,
+      parameters: parameters,
+      data: data
     };
 
     return this._post(this.urls.train, postData);
