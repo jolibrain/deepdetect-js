@@ -186,7 +186,12 @@ export default class DD {
     return new Promise((resolve, reject) => {
 
       let url = this.ddurl + apiMethod;
-      const requestParams = { method: httpMethod };
+      const requestParams = {
+        method: httpMethod,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
+        }
+      };
 
       if (jsonParams != null) {
         requestParams.body = JSON.stringify(jsonParams);
@@ -205,7 +210,6 @@ export default class DD {
       );
 
       fetch(url, requestParams).then(response => {
-        clearTimeout(timer);
         response
           .json()
           .catch(error => reject(error))
