@@ -205,6 +205,7 @@ export default class DD {
       );
 
       fetch(url, requestParams).then(response => {
+        clearTimeout(timer);
         response
           .json()
           .catch(error => reject(error))
