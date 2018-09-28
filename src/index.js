@@ -203,32 +203,36 @@ export default class DD {
         url += `?${urlParameters}`;
       }
 
-      // Set timeout timer
-      let timer = setTimeout(
-        () => reject(new Error('Request timed out')),
-        this.fetchTimeout
-      );
+      this._fetchTimeout(this.fetchTimeout, fetch(url, requestParams))
+        .then(response => {
+          response
+            .json()
+            .catch(error => reject(error))
+            .then(json => {
+              if (response.status >= 200 && response.status < 300) {
+                return resolve(json);
+              }
+              const error = new Error();
 
-      fetch(url, requestParams).then(response => {
-        response
-          .json()
-          .catch(error => reject(error))
-          .then(json => {
-            if (response.status >= 200 && response.status < 300) {
-              return resolve(json);
-            }
-            const error = new Error();
-
-            if (json && json.status) {
-              error.status = json.status;
-            } else if (response.statusText) {
-              error.status = response.statusText;
-            }
-            return reject(error);
-          });
-      }).finally(() => clearTimeout(timer));
+              if (json && json.status) {
+                error.status = json.status;
+              } else if (response.statusText) {
+                error.status = response.statusText;
+              }
+              return reject(error);
+            });
+        });
     });
   };
+
+  _fetchTimeout(ms, promise) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        reject(new Error('timeout'));
+      }, ms);
+      promise.then(resolve, reject);
+    });
+  }
 
   // GET to DeepDetect server
   //
