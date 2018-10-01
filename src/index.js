@@ -130,8 +130,8 @@ export default class DD {
   ) {
     const params = {
       service: sname,
-      job,
-      timeout
+      job: job,
+      timeout: timeout
     };
 
     if (measureHist) {
