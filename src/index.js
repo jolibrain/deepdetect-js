@@ -221,16 +221,30 @@ export default class DD {
               }
               return reject(error);
             });
+        })
+        .catch(error => {
+          reject(error)
         });
     });
   };
 
   _fetchTimeout(ms, promise) {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+
+      var timer = setTimeout(() => {
         reject(new Error('timeout'));
       }, ms);
-      promise.then(resolve, reject);
+
+      promise
+        .then(res => {
+          clearTimeout(timer);
+          resolve(res);
+        })
+        .catch(err => {
+          clearTimeout(timer);
+          reject(err);
+        })
+
     });
   }
 

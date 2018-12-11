@@ -7,7 +7,8 @@
     "build": "webpack --env dev && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --require babel-register --require babel-polyfill --colors ./test/*.spec.js",
-    "test:watch": "mocha --require babel-register --require babel-polyfill --colors -w ./test/*.spec.js -w ./src/*.js"
+    "test:watch": "mocha --require babel-register --require babel-polyfill --colors -w ./test/*.spec.js -w ./src/*.js",
+    "test_pending": "mocha --require babel-register --require babel-polyfill --colors ./test/pending.spec.js"
   },
   "repository": {
     "type": "git",
