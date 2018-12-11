@@ -223,7 +223,7 @@ export default class DD {
             });
         })
         .catch(error => {
-          reject(error)
+          reject(error);
         });
     });
   };
@@ -243,7 +243,7 @@ export default class DD {
         .catch(err => {
           clearTimeout(timer);
           reject(err);
-        })
+        });
 
     });
   }
