@@ -1,6 +1,6 @@
 {
   "name": "deepdetect-js",
-  "version": "1.6.14",
+  "version": "1.6.15",
   "description": "DeepDetect JS client",
   "main": "lib/deepdetect.js",
   "scripts": {
