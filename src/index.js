@@ -11,16 +11,17 @@ export default class DD {
   // @param {Integer} port the DeepDetect server port
   // @param {Boolean} https http (default) or https connection
   // @param {String} apiversion url api version
-  constructor(
-    opts = {
+  constructor(opts) {
+
+    let defaults = {
       host: 'localhost',
       port: 8080,
-      path: null,
+      path: '',
       https: false,
       apiversion: '0.1',
       fetchTimeout: 5000
-    }
-  ) {
+    };
+    let options = Object.assign({}, defaults, opts);
 
     const API_METHODS_URL = {
       0.1: {
@@ -31,26 +32,26 @@ export default class DD {
       }
     };
 
-    this.urls = API_METHODS_URL[opts.apiversion || 0.1];
+    this.urls = API_METHODS_URL[options.apiversion || 0.1];
 
     if (
       typeof window !== 'undefined' &&
       typeof window.location !== 'undefined' &&
       typeof window.location.origin !== 'undefined' &&
-      typeof opts.host === 'undefined'
+      typeof options.host === 'undefined'
     ) {
       // Browser support, uses window.location by default
       this.ddurl = window.location.origin;
     } else {
       // NodeJS support
-      this.ddurl = opts.https ? 'https://' : 'http://';
-      this.ddurl += opts.host ? opts.host : 'localhost';
-      this.ddurl += opts.port ? `:${opts.port}` : '';
+      this.ddurl = options.https ? 'https://' : 'http://';
+      this.ddurl += options.host;
+      this.ddurl += ':' + options.port;
     }
 
-    this.ddurl += opts.path ? opts.path : '';
+    this.ddurl += options.path;
 
-    this.fetchTimeout = opts.fetchTimeout ? opts.fetchTimeout : 5000;
+    this.fetchTimeout = options.fetchTimeout;
 
   }
 
