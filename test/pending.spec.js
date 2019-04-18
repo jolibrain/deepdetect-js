@@ -9,14 +9,16 @@ const expect = chai.expect;
 // Change these parameters in accord with
 // your own DeepDetect server configuration
 const ddServerParams = {
-  host: '10.10.77.61',
-  port: 8666,
+  host: 'localhost',
+  port: 8080,
 };
 
 describe('Timeout on pending', () => {
 
   describe('when server is not responding', () => {
-    it('should return a timeout error', async (done) => {
+
+    it('should return a timeout error', async () => {
+
       const dd = new DD(ddServerParams);
 
       try {
@@ -30,8 +32,8 @@ describe('Timeout on pending', () => {
         expect(err.status.msg).to.equal('NotFound');
       }
 
-      done();
     }).timeout(6000);
+
   });
 
 });

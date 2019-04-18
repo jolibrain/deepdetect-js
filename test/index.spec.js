@@ -135,18 +135,18 @@ describe('ddurl init', () => {
 
   it('has host', () => {
     const dd = new DD({
-      host: '10.10.10.1'
+      host: 'localhost'
     });
 
-    expect(dd.ddurl).to.equal('http://10.10.10.1:8080');
+    expect(dd.ddurl).to.equal('http://localhost:8080');
   });
 
   it('has port', () => {
     const dd = new DD({
-      port: 8888
+      port: 8080
     });
 
-    expect(dd.ddurl).to.equal('http://localhost:8888');
+    expect(dd.ddurl).to.equal('http://localhost:8080');
   });
 
   it('has path', () => {
