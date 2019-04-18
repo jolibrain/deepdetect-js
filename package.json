@@ -15,13 +15,13 @@
     "url": "https://github.com/jolibrain/deepdetect-js.git"
   },
   "keywords": [
-    "webpack",
-    "es6",
-    "starter",
-    "library",
-    "universal",
-    "umd",
-    "commonjs"
+    "deepdetect",
+    "deep-learning",
+    "machine-learning",
+    "rest-api",
+    "client",
+    "javascript",
+    "request"
   ],
   "author": {
     "name": "Alexandre Girard",
@@ -34,7 +34,7 @@
   },
   "homepage": "https://deepdetect.com",
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.51",
+    "@babel/cli": "^7.4.3",
     "@babel/core": "^7.0.0-beta.51",
     "@babel/preset-env": "^7.0.0-beta.51",
     "babel-core": "^6.26.3",
@@ -61,14 +61,5 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "isomorphic-fetch": "^2.2.1"
-  },
-  "keywords": [
-    "deepdetect",
-    "deep-learning",
-    "machine-learning",
-    "rest-api",
-    "client",
-    "javascript",
-    "request"
-  ]
+  }
 }
