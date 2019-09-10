@@ -11,6 +11,7 @@ export default class DD {
   // @param {Integer} port the DeepDetect server port
   // @param {Boolean} https http (default) or https connection
   // @param {String} apiversion url api version
+  // @param {Boolean} sameOrigin Use sameOrigin flag to setup host from window.location
   constructor(opts) {
 
     let defaults = {
@@ -35,10 +36,7 @@ export default class DD {
     this.urls = API_METHODS_URL[options.apiversion || 0.1];
 
     if (
-      typeof window !== 'undefined' &&
-      typeof window.location !== 'undefined' &&
-      typeof window.location.origin !== 'undefined' &&
-      typeof options.host === 'undefined'
+      typeof options.sameOrigin
     ) {
       // Browser support, uses window.location by default
       this.ddurl = window.location.origin;
