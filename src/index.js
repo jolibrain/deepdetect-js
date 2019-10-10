@@ -29,7 +29,8 @@ export default class DD {
         info: '/info',
         services: '/services',
         train: '/train',
-        predict: '/predict'
+        predict: '/predict',
+        chain: '/chain'
       }
     };
 
@@ -166,6 +167,15 @@ export default class DD {
   // @param {Object} postData   prediction parameters
   postPredict(postData) {
     return this._post(this.urls.predict, postData);
+  };
+
+  /* API Chain */
+
+  // Makes prediction from data and model using tree-structured chains
+  //
+  // @param {Object} putData   chain parameters
+  putChain(putData) {
+    return this._put(this.urls.chain, putData);
   };
 
   // **HTTP requests to the DeepDetect server**
