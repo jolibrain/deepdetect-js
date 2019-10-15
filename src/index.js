@@ -173,9 +173,10 @@ export default class DD {
 
   // Makes prediction from data and model using tree-structured chains
   //
-  // @param {Object} putData   chain parameters
-  putChain(putData) {
-    return this._put(this.urls.chain, putData);
+  // @param {String} endPoint http endpoint
+  // @param {Object} data     chain parameters
+  putChain(endPoint, data) {
+    return this._put(`${this.urls.chain}/${endPoint}`, data);
   };
 
   // **HTTP requests to the DeepDetect server**
