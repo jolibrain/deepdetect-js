@@ -20,7 +20,7 @@ export default class DD {
       path: '',
       https: false,
       apiversion: '0.1',
-      fetchTimeout: 5000
+      fetchTimeout: 15000
     };
     let options = Object.assign({}, defaults, opts);
 
