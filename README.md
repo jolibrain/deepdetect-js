@@ -248,13 +248,6 @@ Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contr
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/373?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx) |
-| [<img src="https://avatars3.githubusercontent.com/u/846035?v=3" width="100px;"/><br /><sub><b>Ariel Weingarten</b></sub>](https://github.com/eh-dub) |
-| :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
 
 ## License
