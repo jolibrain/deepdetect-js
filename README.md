@@ -223,13 +223,18 @@ async () => {
 
 If you find and issue with your tests, please check the header parameters available in ```src/index.test.js```.
 
+## Changelog
+
+* 1.8.4 - 16/10/2020 - [Fix conditional check of options.sameOrigin](https://github.com/jolibrain/deepdetect-js/pull/13) by [eh-dub](https://github.com/eh-dub)
+
 ## Contributors
 
 Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/373?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx)<br />[💻](https://github.com/jolibrain/deepdetect-js/commits?author=alx "Code") [📖](https://github.com/jolibrain/deepdetect-js/commits?author=alx "Documentation") [🚇](#infra-alx "Infrastructure (Hosting, Build-Tools, etc)") |
+| [<img src="https://avatars3.githubusercontent.com/u/373?v=3" width="100px;"/><br /><sub><b>Alexandre Girard</b></sub>](https://github.com/alx) |
+| [<img src="https://avatars3.githubusercontent.com/u/846035?v=3" width="100px;"/><br /><sub><b>Ariel Weingarten</b></sub>](https://github.com/eh-dub) |
 | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
