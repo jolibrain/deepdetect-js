@@ -1,6 +1,6 @@
 # deepdetect-js
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 > DeepDetect JS client
@@ -239,6 +239,7 @@ Thanks goes to these people ([emoji key](https://github.com/kentcdodds/all-contr
 <table>
   <tr>
     <td align="center"><a href="http://alexgirard.com/"><img src="https://avatars1.githubusercontent.com/u/373?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alexandre Girard</b></sub></a><br /><a href="https://github.com/jolibrain/deepdetect-js/commits?author=alx" title="Code">💻</a></td>
+    <td align="center"><a href="https://ehdub.substack.com/"><img src="https://avatars2.githubusercontent.com/u/846035?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Ariel Weingarten</b></sub></a><br /><a href="https://github.com/jolibrain/deepdetect-js/commits?author=eh-dub" title="Code">💻</a></td>
   </tr>
 </table>
 
