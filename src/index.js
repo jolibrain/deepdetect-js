@@ -36,9 +36,7 @@ export default class DD {
 
     this.urls = API_METHODS_URL[options.apiversion || 0.1];
 
-    if (
-      typeof options.sameOrigin
-    ) {
+    if (options.sameOrigin) {
       // Browser support, uses window.location by default
       this.ddurl = window.location.origin;
     } else {
