@@ -1,22 +1,24 @@
 {
   "projectName": "deepdetect-js",
-  "projectOwner": "alx",
+  "projectOwner": "jolibrain",
+  "repoType": "github",
+  "repoHost": "https://github.com",
   "files": [
-    "readme.md"
+    "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
+  "commitConvention": "none",
   "contributors": [
     {
       "login": "alx",
       "name": "Alexandre Girard",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/22868432?v=3",
-      "profile": "https://github.com/alx",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/373?v=4",
+      "profile": "http://alexgirard.com/",
       "contributions": [
-        "code",
-        "doc",
-        "infra"
+        "code"
       ]
     }
-  ]
+  ],
+  "contributorsPerLine": 7
 }
