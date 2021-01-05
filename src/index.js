@@ -214,7 +214,7 @@ export default class DD {
       this._fetchTimeout(this.fetchTimeout, fetch(url, requestParams))
         .then(response => {
           return response.text().then((text) => {
-            return text ? JSON.parse(text.replace(/\s+NaN,/g, ' 0,')) : {};
+            return text ? JSON.parse(text.replace(/NaN,/g, '0,')) : {};
           });
         }).then((json) => {
           return resolve(json);
