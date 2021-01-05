@@ -213,22 +213,11 @@ export default class DD {
 
       this._fetchTimeout(this.fetchTimeout, fetch(url, requestParams))
         .then(response => {
-          response
-            .json()
-            .catch(error => reject(error))
-            .then(json => {
-              if (response.status >= 200 && response.status < 300) {
-                return resolve(json);
-              }
-              const error = new Error();
-
-              if (json && json.status) {
-                error.status = json.status;
-              } else if (response.statusText) {
-                error.status = response.statusText;
-              }
-              return reject(error);
-            });
+          return response.text().then((text) => {
+            return text ? JSON.parse(text.replace(/\s+NaN,/g, ' 0,')) : {};
+          });
+        }).then((json) => {
+          return resolve(json);
         })
         .catch(error => {
           reject(error);

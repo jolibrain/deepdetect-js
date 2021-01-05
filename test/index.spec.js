@@ -53,9 +53,10 @@ describe('Error catching', () => {
   });
 
   describe('when json is not returned', () => {
+
     it('should return a parsing error', async () => {
       const dd = new DD({
-        host: '1.1.1.1',
+        host: '0.0.0.0',
         port: 80,
       });
 
@@ -66,11 +67,10 @@ describe('Error catching', () => {
 
         expect(err.name).to.not.be.undefined;
         expect(err.message).to.not.be.undefined;
-        expect(err.type).to.not.be.undefined;
+        expect(err.type).to.be.undefined;
 
-        expect(err.name).to.equal('FetchError');
+        expect(err.name).to.equal('SyntaxError');
         expect(err.message).to.have.string('Unexpected token < in JSON at position 0');
-        expect(err.type).to.equal('invalid-json');
       }
     });
   });
