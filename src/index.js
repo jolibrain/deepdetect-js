@@ -20,8 +20,13 @@ export default class DD {
       path: '',
       https: false,
       apiversion: '0.1',
-      fetchTimeout: 15000
+      fetchTimeout: 15000,
+      gzipEnable: true,
+      requestHeaders: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
+      }
     };
+
     let options = Object.assign({}, defaults, opts);
 
     const API_METHODS_URL = {
@@ -49,6 +54,11 @@ export default class DD {
     this.ddurl += options.path;
 
     this.fetchTimeout = options.fetchTimeout;
+    this.requestHeaders = options.requestHeaders;
+
+    if (!options.gzipEnable) {
+      this.requestHeaders['accept-encoding'] = 'identity';
+    }
 
   }
 
@@ -196,9 +206,7 @@ export default class DD {
       let url = this.ddurl + apiMethod;
       const requestParams = {
         method: httpMethod,
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate'
-        }
+        headers: this.requestHeaders
       };
 
       if (jsonParams != null) {
