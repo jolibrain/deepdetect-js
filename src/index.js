@@ -23,7 +23,8 @@ export default class DD {
       fetchTimeout: 15000,
       gzipEnable: true,
       requestHeaders: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate'
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Accept-Encoding': 'gzip'
       }
     };
 
@@ -57,7 +58,7 @@ export default class DD {
     this.requestHeaders = options.requestHeaders;
 
     if (!options.gzipEnable) {
-      this.requestHeaders['accept-encoding'] = 'identity';
+      this.requestHeaders['Accept-Encoding'] = 'identity';
     }
 
   }
