@@ -16,10 +16,11 @@
     "before": true,
     "it": true,
     "expect": true,
-    "sinon": true
+    "sinon": true,
+    "requireConfigFile": false
   },
 
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
 
   "plugins": [
 
