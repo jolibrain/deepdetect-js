@@ -228,7 +228,17 @@ async () => {
 
 ## Testing
 
-``` yarn test ```
+In order to run the test, you first need to run a deepdetect server loccaly on port 8080. To do so, you can use the following docker command:
+
+``` sh
+docker run -d -p 8080:8080 docker.jolibrain.com/deepdetect_cpu
+```
+
+Then you can run the test suite:
+
+```sh
+yarn test
+```
 
 If you find and issue with your tests, please check the header parameters available in ```src/index.test.js```.
 
