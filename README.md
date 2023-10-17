@@ -234,6 +234,7 @@ If you find and issue with your tests, please check the header parameters availa
 
 ## Changelog
 
+* 1.8.9 - 17/10/2023 - Update dependencies
 * 1.8.8 - 19/10/2021 - Add option to enable/disable Accept-Encoding gzip request header
 * 1.8.7 - 05/01/2020 - Replace NaN values in returned json from deepdetect server
 * 1.8.4 - 16/10/2020 - [Fix conditional check of options.sameOrigin](https://github.com/jolibrain/deepdetect-js/pull/13) by [eh-dub](https://github.com/eh-dub)
