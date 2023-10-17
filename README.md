@@ -220,6 +220,12 @@ async () => {
 }
 ```
 
+## Build and release
+
+1. Modify version number in `package.json`
+2. `npm run build`
+3. `npm publish` - [documentation](https://www.freecodecamp.org/news/how-to-create-and-publish-your-first-npm-package/)
+
 ## Testing
 
 ``` yarn test ```
