@@ -1,10 +1,10 @@
 {
   "name": "deepdetect-js",
-  "version": "1.8.8",
+  "version": "1.8.9",
   "description": "DeepDetect JS client",
   "main": "lib/deepdetect.js",
   "scripts": {
-    "build": "webpack --env dev && webpack --env build",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider && webpack --env dev && webpack --env build",
     "dev": "webpack --progress --colors --watch --env dev",
     "test": "mocha --require babel-register --require babel-polyfill --colors ./test/*.spec.js",
     "test:watch": "mocha --require babel-register --require babel-polyfill --colors -w ./test/*.spec.js -w ./src/*.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jolibrain/deepdetect-js.git"
+    "url": "git+https://github.com/jolibrain/deepdetect-js.git"
   },
   "keywords": [
     "deepdetect",
@@ -51,18 +51,27 @@
     "chai": "^4.1.2",
     "eslint": "^5.0.1",
     "eslint-loader": "^2.0.0",
-    "jsdom": "11.11.0",
+    "jsdom": "^22.1.0",
     "jsdom-global": "3.0.2",
-    "mocha": "^4.0.1",
+    "mocha": "^10.2.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "^4.12.2",
     "webpack-cli": "^3.0.8",
     "yargs": "^10.0.3"
   },
   "dependencies": {
+    "async": "^3.2.4",
     "babel-runtime": "^6.26.0",
     "braces": "^3.0.2",
+    "decode-uri-component": "^0.4.1",
     "isomorphic-fetch": "^2.2.1",
-    "js-yaml": "^3.13.1"
+    "js-yaml": "^3.13.1",
+    "loader-fs-cache": "^1.0.3",
+    "loader-utils": "^3.2.1",
+    "minimist": "^1.2.8",
+    "mkdirp": "^3.0.1",
+    "pathval": "^2.0.0",
+    "qs": "^6.11.2",
+    "terser": "^5.22.0"
   }
 }
