@@ -23,7 +23,10 @@ const config = {
   entry: __dirname + '/src/index.js',
   devtool: 'source-map',
   plugins: [
-    new ESLintPlugin()
+    new ESLintPlugin(),
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
+    })
   ],
   output: {
     path: __dirname + '/lib',
