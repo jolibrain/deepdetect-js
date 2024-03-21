@@ -244,6 +244,7 @@ If you find and issue with your tests, please check the header parameters availa
 
 ## Changelog
 
+* 1.8.12 - 21/03/2024 - return !response.ok error from http requests
 * 1.8.11 - 19/10/2023 - Add missing process lib
 * 1.8.10 - 19/10/2023 - Review dependabot alerts
 * 1.8.9  - 17/10/2023 - Update dependencies

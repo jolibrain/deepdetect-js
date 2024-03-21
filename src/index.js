@@ -222,11 +222,16 @@ export default class DD {
 
       this._fetchTimeout(this.fetchTimeout, fetch(url, requestParams))
         .then(response => {
+          if (!response.ok) {
+            return response.text().then(body => {
+              throw new Error(body);
+            });
+          }
           return response.text().then((text) => {
             return text ? JSON.parse(text.replace(/NaN,/g, '0,')) : {};
           });
         }).then((json) => {
-          return resolve(json);
+          resolve(json);
         })
         .catch(error => {
           reject(error);
